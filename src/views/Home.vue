@@ -38,8 +38,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { login } from "../api/login";
+import Cookies from "js-cookie";
 export default {
   name: "Home",
   components: {},
@@ -52,10 +52,22 @@ export default {
     };
   },
   computed: {},
+  mounted() {
+    if (Cookies.get("chattoken") !== undefined) {
+      this.$router.push("/about");
+    }
+  },
   methods: {
     submit() {
-      login(this.ruleForm);
-      console.log(this.ruleForm);
+      login(this.ruleForm).then((res) => {
+        if (res !== "error") {
+          let currentCookieSetting = {
+            expires: 1,
+          };
+          Cookies.set("chattoken", res, currentCookieSetting);
+          this.$router.push("/about");
+        }
+      });
     },
   },
 };
