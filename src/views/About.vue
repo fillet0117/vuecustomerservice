@@ -446,8 +446,9 @@ import {
   getlocal,
   getemoji,
   getdetial,
-} from "../api/login";
+} from "../api/chat";
 import io from "socket.io-client";
+import Cookies from "js-cookie";
 export default {
   name: "others-chat",
   data() {
@@ -502,6 +503,7 @@ export default {
     };
   },
   created() {
+    console.log("created");
     window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
   mounted() {
@@ -510,37 +512,37 @@ export default {
     // 會員的等待時間
     this.setTime();
     // 拿罐頭訊息
-    getCanCategory({ status: "1" })
-      .then((res) => {
-        if (res !== "error") {
-          res.forEach((index) => {
-            this.options.push({
-              value: index.value,
-              label: index.value,
-              id: index.id,
-              children: [],
+    getCanCategory({ status: 1 }).then((res) => {
+      if (res !== "error") {
+        res.forEach((index) => {
+          this.options.push({
+            value: index.value,
+            label: index.value,
+            id: index.id,
+            children: [],
+          });
+        });
+        getCanMsg({ status: "1" }).then((res) => {
+          if (res !== "error") {
+            res.forEach((index) => {
+              let op_index = this.options.indexOf(
+                this.options.find((v) => v.id === index.msg_categoryid)
+              );
+              if (op_index != -1) {
+                this.options[op_index].children.push({
+                  value: index.value,
+                  label: index.value,
+                });
+              }
             });
-          });
-          getCanMsg({ status: "1" }).then((res) => {
-            if (res !== "error") {
-              res.forEach((index) => {
-                let op_index = this.options.indexOf(
-                  this.options.find((v) => v.id === index.msg_categoryid)
-                );
-                if (op_index != -1) {
-                  this.options[op_index].children.push({
-                    value: index.value,
-                    label: index.value,
-                  });
-                }
-              });
-            }
-          });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+          }
+        });
+      } else {
+        Cookies.remove("chattoken");
+        this.$router.push("/");
+        this.socket.disconnect();
+      }
+    });
     // 初始設定
     var _this = this;
     var double = "";
@@ -548,30 +550,36 @@ export default {
     this.roomdetial = new Map();
     this.recordmsg = new Map();
     this.noread = new Map();
-    var chat_socket = window.localStorage.getItem("chat_socketId");
+    // var chat_socket = window.localStorage.getItem("chat_socketId");
     var cookie = this.getcookie();
     // 沒有登入
-    if (cookie == false) {
+    // if (cookie == false) {
+    if (!("chattoken" in cookie)) {
       alert(_this.$t(`views.main.notLoggedIn`));
+      this.$router.push("/");
       return;
     }
     // socket連線
     this.socket = io.connect("http://vip66741.com/");
     // 判斷雙開
     this.socket.on("double", function(data) {
+      console.log("double");
       double = data;
       if (data == "yes") {
         alert(_this.$t(`views.main.notSupportDoubleOpening`));
         _this.socket.disconnect();
+        _this.$router.push("/");
         return;
       }
     });
     // 拿取頭貼
     this.socket.on("getpic", function(pic) {
+      console.log("getpic");
       _this.photo = pic;
     });
     // 線上會員數量
     this.socket.on("user_online", function(amount) {
+      console.log("user_online");
       _this.useronline = amount;
     });
     // 將會員顯示在表格內
@@ -582,6 +590,7 @@ export default {
       linktime,
       service
     ) {
+      console.log("getRoom");
       var accode = name.split("("); // 分割名字 ex: 帳號(信用卡綁定名稱)
       _this.getindex(_this.newtableData, roomid).then(function(index) {
         let str = service != false ? _this.$t("views.main.inService") : "";
@@ -635,6 +644,7 @@ export default {
     });
     // 取的所有的客服
     this.socket.on("getallcs", function(socketId, name, bu) {
+      console.log("getallcs");
       if (socketId != _this.socket.id && bu != 2) {
         // 不是本客服且客服不為離線
         _this.CsTable.unshift({
@@ -645,10 +655,12 @@ export default {
     });
     // 設定mid
     this.socket.on("getMid", function(managerid) {
+      console.log("getMid");
       _this.accountid = managerid;
     });
     // user離開,刪除table的值
     this.socket.on("userleave", function(roomid) {
+      console.log("userleave");
       // 從接線大廳刪除
       _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
@@ -677,6 +689,7 @@ export default {
     });
     // cs離開,刪除table的值
     this.socket.on("csleave", function(socketid) {
+      console.log("csleave");
       _this.getindexforcstable(socketid).then(function(index) {
         if (index != -1) {
           _this.CsTable.splice(index, 1);
@@ -685,6 +698,7 @@ export default {
     });
     // 接收訊息
     this.socket.on("msgReceived", function(name, data, roomid, pic, time) {
+      console.log("msgReceived");
       if (data.msg.indexOf(_this.nickname) != -1) {
         return;
       }
@@ -753,7 +767,7 @@ export default {
     });
     // 通知cs已進入room
     this.socket.on("notic_getinroom", function(roomid) {
-      // console.log('notic_getinroom')
+      console.log("notic_getinroom");
       if (_this.myroom.indexOf(roomid) == -1) {
         // 放到myroom中
         _this.myroom.push(roomid);
@@ -799,6 +813,7 @@ export default {
     });
     // 若會員有已接線的cs，設定有服務中
     this.socket.on("getuserservice", function(roomid, color) {
+      console.log("getuserservice");
       _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           if (color == true) {
@@ -813,13 +828,13 @@ export default {
     });
     // 設定暱稱跟帳號
     this.socket.on("getNickname", function(nickname, accountcode) {
-      // console.log('getNickname')
+      console.log("getNickname");
       _this.nickname = nickname;
       _this.accountcode = accountcode;
     });
     // room中的客服(現在沒有用)
     this.socket.on("whichcsinroom", function(csname, roomid) {
-      // console.log('whichcsinroom')
+      console.log("whichcsinroom");
       _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData[index].csinroom.push(csname);
@@ -831,7 +846,7 @@ export default {
     });
     // 通知某個cs離開room(現在沒用了)
     this.socket.on("delcsinroom", function(csname, roomid, socketid) {
-      // console.log('delcsinroom')
+      console.log("delcsinroom");
       if (socketid != _this.socket.id) {
         _this.getindex(_this.newtableData, roomid).then(function(index) {
           if (index != -1) {
@@ -846,10 +861,11 @@ export default {
       }
     });
     // 對應的chat_socket
-    this.socket.emit("correspond", chat_socket);
+    // this.socket.emit("correspond", chat_socket);
     // 斷線設置
     this.socket.on("disconnect", function() {
-      // console.log('disconnect')
+      console.log(double);
+      console.log("disconnect");
       if (double == "yes") {
         _this.tableData = [];
         _this.CsTable = [];
@@ -860,40 +876,40 @@ export default {
     });
     // 進入socket設置的房間
     this.socket.on("join", function(roomid) {
-      // console.log('join')
+      console.log("join");
       _this.socket.emit("joinRoom", roomid);
     });
     // cs在線人數
     this.socket.on("csonline", function(amount) {
-      // console.log('csonline')
+      console.log("csonline");
       _this.online = amount;
     });
     // 設定cs狀態
     this.socket.emit("getbusy", _this.busyornot, cookie);
     // 取得聊天紀錄
     this.socket.on("getRecord", function(record, roomid) {
-      // console.log('getRecord')
-      if (!record && _this.currentroom == roomid) {
+      console.log(record);
+      if (record && _this.currentroom == roomid) {
         _this.msglist = [];
-        return;
-      }
-      _this.pretime = "1990-01-01";
-      if (!_this.roommsg.has(roomid)) {
-        _this.roommsg.set(roomid, new Set());
       } else {
-        _this.roommsg.delete(roomid);
-        _this.roommsg.set(roomid, new Set());
-      }
-      if (_this.currentroom == roomid && _this.myroom.length == 1) {
-        _this.msglist = [];
-      }
-      for (let key of record) {
-        _this.addRecord(key, roomid);
+        _this.pretime = "1990-01-01";
+        if (!_this.roommsg.has(roomid)) {
+          _this.roommsg.set(roomid, new Set());
+        } else {
+          _this.roommsg.delete(roomid);
+          _this.roommsg.set(roomid, new Set());
+        }
+        if (_this.currentroom == roomid && _this.myroom.length == 1) {
+          _this.msglist = [];
+        }
+        for (let key of record) {
+          _this.addRecord(key, roomid);
+        }
       }
     });
     // cstable的狀態改變
     this.socket.on("cschangestatus", function(socketid, bu, name) {
-      // console.log('cschangestatus')
+      console.log("cschangestatus");
       if (socketid != _this.socket.id) {
         _this.getindexforcstable(socketid).then(function(index) {
           if (index != -1 && bu == 2) {
@@ -911,7 +927,8 @@ export default {
     });
     // 設定等待時間 (客服有回應客戶，就會設置waittime為00:00)
     this.socket.on("setwaittime", function(roomid) {
-      // console.log('setwaittime')
+      console.log("setwaittime");
+      console.log(roomid);
       _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData[index].status = 1;
@@ -929,7 +946,7 @@ export default {
     });
     // 用戶有傳訊息, 重新計算waittime
     this.socket.on("reloadtime", function(roomid) {
-      // console.log('reloadtime')
+      console.log("reloadtime");
       _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (
           index != -1 &&
@@ -953,20 +970,25 @@ export default {
     setInterval(this.getallsubtime(), 1000);
   },
   beforeDestroy() {
-    this.socket.disconnect();
+    console.log("disconnect1");
+    this.beforeunloadFn();
+    // this.socket.disconnect();
   },
   methods: {
     handleRemove() {
+      console.log("handleRemove");
       this.upfile = "";
     },
     // 自動下滾到訊息最底
     scrollToBottom() {
+      console.log("scrollToBottom");
       this.$nextTick(() => {
         this.$refs.chatContent.scrollTop = this.$refs.chatContent.scrollHeight;
       });
     },
     // 點擊已接線會員切換聊天室 (若有未讀訊息，則在滾動或客服回訊息時會消失)
     handleCurrentChange(val) {
+      console.log("handleCurrentChange");
       this.scrollcnt = 0;
       var _this = this;
       if (val === null || val.room === this.currentroom) {
@@ -1001,6 +1023,7 @@ export default {
     },
     // 新進線會員閃光提醒
     tableNotice({ row }) {
+      // console.log("tableNotice");
       if (row.notice != 0 && row.inroom == false && row.servicestatus == "") {
         return "warning-row";
       }
@@ -1008,17 +1031,18 @@ export default {
     },
     // cs的cookie分割
     getcookie() {
+      console.log("getcookie");
       let array = document.cookie.split("; "); // 分割cookie
       var res = {};
       array.forEach((id) => {
         let change = id.split("=");
-        let turn = change[0].split("-");
-        res[turn[2]] = change[1];
+        res[change[0]] = change[1];
       });
       return res;
     },
     // 轉換cs的status
     statuschange(val) {
+      console.log("statuschange");
       if (this.myroom.length > 0 && val == "disc") {
         // 接線中點選離線
         this.busyornot = this.last;
@@ -1034,10 +1058,12 @@ export default {
     },
     // 剔除會員
     kicked() {
+      console.log("kicked");
       this.socket.emit("kickeduser", this.currentroom);
     },
     // cs進入room
     getinroom(data) {
+      console.log("getinroom");
       var _this = this;
       if (this.busyornot === "disc") {
         this.$message({
@@ -1088,6 +1114,7 @@ export default {
     },
     // 發送訊息
     publish() {
+      console.log("publish");
       if (this.currentroom == "") {
         this.form.msg = "";
         return;
@@ -1159,6 +1186,7 @@ export default {
     },
     // 判斷圖有沒有超過300kb，並把圖轉成base64輸出
     getFile(file) {
+      console.log("getfile");
       let maxsize = 1024 * 300; // 300KB
       if (file.size > maxsize) {
         this.$message({
@@ -1176,6 +1204,7 @@ export default {
     },
     // 把圖轉乘base64
     getBase64(file) {
+      console.log("getbase64");
       return new Promise(function(resolve, reject) {
         let reader = new FileReader();
         let imgResult = "";
@@ -1193,6 +1222,7 @@ export default {
     },
     // 設定會員紀錄
     addRecord(index, roomid) {
+      console.log("addrecord");
       let currenttime = this.getDate(index.created_at);
       let nowtime = currenttime.split(" ");
       if (nowtime[0] != this.pretime) {
@@ -1243,6 +1273,7 @@ export default {
     },
     // 訊息時間
     getDate(indate) {
+      console.log("getdate");
       var date = "";
       if (indate == "") {
         date = new Date();
@@ -1287,6 +1318,7 @@ export default {
     },
     // 搜尋new/mytable裡對應roomid的index
     getindex(table, roomid) {
+      console.log("getindex");
       return new Promise((resolve) => {
         var count = 0;
         table.forEach((value, index) => {
@@ -1303,6 +1335,7 @@ export default {
     },
     // 搜尋cstable裡對應cs的index
     getindexforcstable(socketid) {
+      console.log("getindexforcstable");
       var _this = this;
       var skid = socketid;
       return new Promise((resolve) => {
@@ -1321,6 +1354,7 @@ export default {
     },
     // 轉換時間
     gettimesub(faultDate) {
+      // console.log("gettimesub");
       var stime = faultDate;
       var etime = Date.parse(new Date());
       var usedTime = etime - stime;
@@ -1338,6 +1372,7 @@ export default {
     },
     // 計算等待時間跟連線時間
     getallsubtime() {
+      // console.log("getallsubtime")
       if (this.newtableData.length != 0) {
         this.newtableData.forEach((value, index) => {
           if (typeof value != "undefined") {
@@ -1438,6 +1473,7 @@ export default {
     },
     // 拿取今天有紀錄的所有roomid
     handleClick() {
+      console.log("handleClick");
       let _this = this;
       if (this.activeName == "third") {
         let date2 = new Date();
@@ -1493,6 +1529,7 @@ export default {
     },
     // 拿取今天有客戶紀錄
     handleRecord(data) {
+      console.log("handleRecord");
       this.msglist = [];
       this.srcList = [];
       let date2 = new Date();
@@ -1611,6 +1648,10 @@ export default {
             let str = String.fromCodePoint(res[x]);
             this.emojis.push(str);
           }
+        } else {
+          Cookies.remove("chattoken");
+          this.$router.push("/");
+          this.socket.disconnect();
         }
       });
     },
@@ -1661,12 +1702,14 @@ export default {
       return comp.toString("16");
     },
     beforeunloadFn() {
-      if (this.socket != "") {
+      console.log("beforeunloadFn");
+      if (this.socket !== "") {
         this.socket.disconnect();
       }
     },
     // 拿取會員的資訊
     getroomdetial(data) {
+      console.log("getroomdetial");
       this.detiallist = {};
       if (this.roomdetial.has(data.room)) {
         let turn = this.roomdetial.get(data.room).values();
@@ -1693,6 +1736,7 @@ export default {
     },
     // 會員資訊的位置
     getlocalvalue(obj) {
+      console.log("getlocalvalue");
       let ary = [];
       obj.forEach((value) => {
         if (value != "") {
@@ -1735,6 +1779,7 @@ export default {
     },
   },
   destroyed() {
+    console.log("destroyed");
     window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
 };

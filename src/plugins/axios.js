@@ -3,6 +3,7 @@
 // import Vue from "vue";
 import axios from "axios";
 import { Message } from "element-ui";
+// import Cookies from "js-cookie";
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
@@ -20,6 +21,8 @@ const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function(config) {
+    // let token = Cookies.get("chattoken");
+    // config.headers["JWT-TOKEN"] = token;
     return config;
   },
   function(error) {
