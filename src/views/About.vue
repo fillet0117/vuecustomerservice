@@ -1321,7 +1321,7 @@ export default {
             }
             if (value.reloadtime != 0) {
               let reload = this.gettimesub(value.reloadtime);
-              this.newtableData[index].waittime = reload;
+              this.mytableData[index].waittime = reload;
             }
           }
         });
