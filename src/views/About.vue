@@ -818,6 +818,7 @@ export default {
     this.socket.emit("getbusy", _this.busyornot, cookie);
     // 取得聊天紀錄
     this.socket.on("getRecord", function (record, roomid) {
+      console.log(record);
       if (record) {
         if (_this.currentroom == roomid) {
           _this.msglist = [];
