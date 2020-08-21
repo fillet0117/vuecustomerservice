@@ -1,37 +1,29 @@
 <template>
   <div class="home">
     <el-card shadow="always" class="elcard">
-      <el-form
-        :model="ruleForm"
-        status-icon
-        ref="ruleForm"
-        class="demo-ruleForm"
-      >
+      <el-form :model="ruleForm" status-icon ref="ruleForm" class="demo-ruleForm">
         <el-form-item>
           <el-input
             type="text"
             v-model="ruleForm.accountcode"
-            placeholder="帳號"
+            :placeholder="$t('views.main.name')"
             @keyup.enter.native="submit"
-          >
-          </el-input>
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-input
             type="password"
             v-model="ruleForm.password"
-            placeholder="密碼"
+            :placeholder="$t('views.main.password')"
             @keyup.enter.native="submit"
-          >
-          </el-input>
+          ></el-input>
         </el-form-item>
         <el-button
           size="default"
           @click="submit"
           type="primary"
           class="button-login"
-          >送出
-        </el-button>
+        >{{$t('views.main.login')}}</el-button>
       </el-form>
     </el-card>
   </div>

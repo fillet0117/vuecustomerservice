@@ -44,7 +44,7 @@
             <el-col :span="1">
               <el-button size="mini" @click="submit" type="primary" plain>
                 {{
-                $t("public.confirm.special.logout.title")
+                $t("views.main.logout")
                 }}
               </el-button>
             </el-col>
@@ -439,8 +439,8 @@ export default {
     };
   },
   created() {
-    console.log("created");
-    window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
+    // console.log("created");
+    // window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
   mounted() {
     // 設定emoji
@@ -475,7 +475,9 @@ export default {
         });
       } else {
         Cookies.remove("chattoken");
-        this.$router.push("/");
+        if (this.$router.path !== "/") {
+          this.$router.push("/");
+        }
         this.socket.disconnect();
       }
     });
@@ -491,21 +493,48 @@ export default {
     // 沒有登入
     // if (cookie == false) {
     if (!("chattoken" in cookie)) {
-      alert(_this.$t(`views.main.notLoggedIn`));
-      this.$router.push("/");
+      _this.$message({
+        showClose: true,
+        message: _this.$t(`views.main.notLoggedIn`),
+        type: "warning",
+      });
+      if (this.$router.path !== "/") {
+        this.$router.push("/");
+      }
       return;
     }
     // socket連線
     this.socket = io.connect("http://vip66741.com/");
+    // 斷線
+    this.socket.on("disconnect", () => {
+      _this.$message({
+        showClose: true,
+        message: _this.$t("views.main.alreadydisconnect"),
+        type: "warning",
+      });
+      Cookies.remove("chattoken");
+      _this.socket.disconnect();
+      if (_this.$router.path !== "/") {
+        _this.$router.push("/");
+      }
+    });
     // 判斷雙開
     this.socket.on("double", function (data) {
       console.log("double");
       console.log(data);
       double = data;
       if (data == "yes") {
-        alert(_this.$t(`views.main.notSupportDoubleOpening`));
+        _this.$message({
+          showClose: true,
+          message: _this.$t(`views.main.notSupportDoubleOpening`),
+          type: "warning",
+        });
+        // alert(_this.$t(`views.main.notSupportDoubleOpening`));
+        Cookies.remove("chattoken");
         _this.socket.disconnect();
-        _this.$router.push("/");
+        if (_this.$router.path !== "/") {
+          _this.$router.push("/");
+        }
         return;
       }
     });
@@ -909,14 +938,12 @@ export default {
   beforeDestroy() {
     console.log("disconnect1");
     this.beforeunloadFn();
-    // this.socket.disconnect();
   },
   methods: {
     // 登出
     submit() {
       Cookies.remove("chattoken");
       this.socket.disconnect();
-      this.$router.push("/");
     },
     handleRemove() {
       console.log("handleRemove");
@@ -1587,8 +1614,10 @@ export default {
           }
         } else {
           Cookies.remove("chattoken");
-          this.$router.push("/");
           this.socket.disconnect();
+          if (this.$router.path !== "/") {
+            this.$router.push("/");
+          }
         }
       });
     },
@@ -1641,6 +1670,7 @@ export default {
     beforeunloadFn() {
       console.log("beforeunloadFn");
       if (this.socket !== "") {
+        Cookies.remove("chattoken");
         this.socket.disconnect();
       }
     },
