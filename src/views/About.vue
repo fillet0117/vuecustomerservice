@@ -38,8 +38,15 @@
                 style="color: #606266;font-size: 13px; margin-top: 6px;"
               >{{ $t("views.main.memberOnline") }} : {{ useronline }}</h3>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="9">
               <audio controls="controls" hidden src="http://vip66741.com/aud" ref="audio"></audio>
+            </el-col>
+            <el-col :span="1">
+              <el-button size="mini" @click="submit" type="primary" plain>
+                {{
+                $t("public.confirm.special.logout.title")
+                }}
+              </el-button>
             </el-col>
           </el-row>
           <el-row :gutter="10">
@@ -905,6 +912,12 @@ export default {
     // this.socket.disconnect();
   },
   methods: {
+    // 登出
+    submit() {
+      Cookies.remove("chattoken");
+      this.socket.disconnect();
+      this.$router.push("/");
+    },
     handleRemove() {
       console.log("handleRemove");
       this.upfile = "";
