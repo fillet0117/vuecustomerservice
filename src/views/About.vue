@@ -10,42 +10,39 @@
                 <el-form-item :label="$t(`views.main.state`)">
                   <el-radio-group v-model="busyornot" @change="statuschange">
                     <el-radio label="auto">
-                      {{
-                      $t("views.main.wiringAutomatic")
-                      }}
+                      {{ $t("views.main.wiringAutomatic") }}
                     </el-radio>
                     <el-radio label="manu">
-                      {{
-                      $t("views.main.wiringManual ")
-                      }}
+                      {{ $t("views.main.wiringManual ") }}
                     </el-radio>
                     <el-radio label="disc">
-                      {{
-                      $t("views.main.Offlinde")
-                      }}
+                      {{ $t("views.main.Offlinde") }}
                     </el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-form>
             </el-col>
             <el-col :span="3">
-              <h3
-                style="color: #606266;font-size: 13px; margin-top: 6px;"
-              >{{ $t("views.main.csOnlineNumber") }} : {{ online }}</h3>
+              <h3 style="color: #606266;font-size: 13px; margin-top: 6px;">
+                {{ $t("views.main.csOnlineNumber") }} : {{ online }}
+              </h3>
             </el-col>
             <el-col :span="5">
-              <h3
-                style="color: #606266;font-size: 13px; margin-top: 6px;"
-              >{{ $t("views.main.memberOnline") }} : {{ useronline }}</h3>
+              <h3 style="color: #606266;font-size: 13px; margin-top: 6px;">
+                {{ $t("views.main.memberOnline") }} : {{ useronline }}
+              </h3>
             </el-col>
             <el-col :span="9">
-              <audio controls="controls" hidden src="http://vip66741.com/aud" ref="audio"></audio>
+              <audio
+                controls="controls"
+                hidden
+                src="http://vip66741.com/aud"
+                ref="audio"
+              ></audio>
             </el-col>
             <el-col :span="1">
               <el-button size="mini" @click="submit" type="primary" plain>
-                {{
-                $t("views.main.logout")
-                }}
+                {{ $t("views.main.logout") }}
               </el-button>
             </el-col>
           </el-row>
@@ -62,7 +59,10 @@
                       :row-class-name="tableNotice"
                       :row-style="{ height: '30px' }"
                     >
-                      <el-table-column property="name" :label="$t('views.main.name')"></el-table-column>
+                      <el-table-column
+                        property="name"
+                        :label="$t('views.main.name')"
+                      ></el-table-column>
                       <el-table-column
                         property="waittime"
                         :label="$t('views.main.waitingTime')"
@@ -78,19 +78,26 @@
                         :label="$t('views.main.state')"
                         width="70"
                       ></el-table-column>
-                      <el-table-column :label="$t('views.main.incoming')" width="62">
+                      <el-table-column
+                        :label="$t('views.main.incoming')"
+                        width="62"
+                      >
                         <template slot-scope="scope">
                           <el-button
                             size="small"
                             :disabled="scope.row.inroom"
                             @click="getinroom(scope.row, scope.$index)"
-                          >{{ $t("views.main.incoming") }}</el-button>
+                            >{{ $t("views.main.incoming") }}</el-button
+                          >
                         </template>
                       </el-table-column>
                     </el-table>
                   </el-row>
                 </el-tab-pane>
-                <el-tab-pane :label="$t('views.main.myOnlineCustomer')" name="second">
+                <el-tab-pane
+                  :label="$t('views.main.myOnlineCustomer')"
+                  name="second"
+                >
                   <el-table
                     ref="singleTable"
                     :data="mytableData"
@@ -100,7 +107,10 @@
                     highlight-current-row
                     :row-style="{ height: '30px' }"
                   >
-                    <el-table-column property="name" :label="$t('views.main.name')"></el-table-column>
+                    <el-table-column
+                      property="name"
+                      :label="$t('views.main.name')"
+                    ></el-table-column>
                     <el-table-column
                       property="waittime"
                       :label="$t('views.main.waitingTime')"
@@ -111,14 +121,24 @@
                       :label="$t('views.main.connectionTime')"
                       width="60"
                     ></el-table-column>
-                    <el-table-column property="no" :label="$t('views.main.inform')" width="70">
+                    <el-table-column
+                      property="no"
+                      :label="$t('views.main.inform')"
+                      width="70"
+                    >
                       <template slot-scope="scope">
-                        <el-badge v-if="scope.row.no != 0" :value="scope.row.no"></el-badge>
+                        <el-badge
+                          v-if="scope.row.no != 0"
+                          :value="scope.row.no"
+                        ></el-badge>
                       </template>
                     </el-table-column>
                   </el-table>
                 </el-tab-pane>
-                <el-tab-pane :label="$t('views.main.todayCustomerRecord')" name="third">
+                <el-tab-pane
+                  :label="$t('views.main.todayCustomerRecord')"
+                  name="third"
+                >
                   <el-table
                     ref="singleTable"
                     :data="tableData"
@@ -127,8 +147,14 @@
                     @current-change="handleRecord"
                     :row-style="{ height: '30px' }"
                   >
-                    <el-table-column property="name" :label="$t('views.main.name')"></el-table-column>
-                    <el-table-column property="linktime" :label="$t('views.main.lastEntry')"></el-table-column>
+                    <el-table-column
+                      property="name"
+                      :label="$t('views.main.name')"
+                    ></el-table-column>
+                    <el-table-column
+                      property="linktime"
+                      :label="$t('views.main.lastEntry')"
+                    ></el-table-column>
                   </el-table>
                 </el-tab-pane>
               </el-tabs>
@@ -142,7 +168,8 @@
                     @click="kicked()"
                     round
                     :disabled="activeName == 'third'"
-                  >{{ $t("views.main.kickMemberOut") }}</el-button>
+                    >{{ $t("views.main.kickMemberOut") }}</el-button
+                  >
                 </el-col>
               </el-row>
               <el-row>
@@ -190,10 +217,15 @@
                       :class="item.style"
                     >
                       <div v-if="item.fontstyle == 'fontright'">
-                        <el-popover :placement="turn[item.style]" style="margin-right: 5px;">
+                        <!-- <el-popover :placement="turn[item.style]" style="margin-right: 5px;">
                           <img :src="item.msg" style="max-width: 1300px; max-height: 900px" />
                           <img slot="reference" :src="item.msg" style="width: 100px; height: 100px" />
-                        </el-popover>
+                        </el-popover>-->
+                        <el-image
+                          v-if="item.image"
+                          :src="item.msg"
+                          :preview-src-list="srcList"
+                        ></el-image>
                         <b>{{ item.name }}</b>
                         <img
                           v-if="
@@ -209,10 +241,15 @@
                       </div>
                       <div v-if="item.fontstyle == 'fontleft'">
                         <b style="margin-right: 5px;">{{ item.name }}</b>
-                        <el-popover :placement="turn[item.style]">
+                        <!-- <el-popover :placement="turn[item.style]">
                           <img :src="item.msg" style="max-width: 1300px; max-height: 900px" />
                           <img slot="reference" :src="item.msg" style="width: 100px; height: 100px" />
-                        </el-popover>
+                        </el-popover>-->
+                        <el-image
+                          v-if="item.image"
+                          :src="item.msg"
+                          :preview-src-list="srcList"
+                        ></el-image>
                         <br />
                       </div>
                       <i class="time">{{ item.curtime }}</i>
@@ -239,13 +276,20 @@
                   ></textarea>
                 </el-col>
                 <el-col :span="2">
-                  <el-popover placement="top" width="400" height="400" trigger="click">
+                  <el-popover
+                    placement="top"
+                    width="400"
+                    height="400"
+                    trigger="click"
+                  >
                     <ul class="emoji-container">
                       <li
                         @click="emojiclick(item)"
                         v-for="(item, index) in emojis"
                         :key="index"
-                      >{{ item }}</li>
+                      >
+                        {{ item }}
+                      </li>
                     </ul>
                     <el-button
                       slot="reference"
@@ -253,7 +297,8 @@
                       :disabled="activeName == 'third'"
                       type="text"
                       style="font-size:20px"
-                    >&#x1F601;</el-button>
+                      >&#x1F601;</el-button
+                    >
                   </el-popover>
                 </el-col>
                 <el-col :span="2">
@@ -271,8 +316,15 @@
                     <i class="el-icon-picture-outline uploader-icon"></i>
                   </el-upload>
                   <el-popover v-if="upfile != ''">
-                    <img :src="upfile" style="max-width: 1300px; max-height: 900px" />
-                    <img slot="reference" :src="upfile" style="width: 100px; height: 100px" />
+                    <img
+                      :src="upfile"
+                      style="max-width: 1300px; max-height: 900px"
+                    />
+                    <img
+                      slot="reference"
+                      :src="upfile"
+                      style="width: 100px; height: 100px"
+                    />
                   </el-popover>
                   <br />
                 </el-col>
@@ -282,7 +334,8 @@
                     @click="publish"
                     :disabled="activeName == 'third'"
                     style="margin-top: 8px"
-                  >{{ $t("views.main.send") }}</el-button>
+                    >{{ $t("views.main.send") }}</el-button
+                  >
                 </el-col>
               </el-row>
             </el-col>
@@ -290,7 +343,8 @@
               <el-row style="margin-top: 10px">
                 <i
                   style="color: #606266;font-size: 13px; margin-bottom: 5px;"
-                >{{ $t("views.main.cannedmessage") }}</i>
+                  >{{ $t("views.main.cannedmessage") }}</i
+                >
                 <br />
                 <el-cascader
                   :props="{ multiple: false }"
@@ -305,7 +359,8 @@
               <el-row style="margin-top: 20px">
                 <i
                   style="color: #606266;font-size: 13px; margin-bottom: 5px;"
-                >{{ $t("views.main.csOnline") }}</i>
+                  >{{ $t("views.main.csOnline") }}</i
+                >
                 <br />
                 <el-select
                   v-model="csvalue"
@@ -327,9 +382,7 @@
                   </div>
                   <div>
                     <i class="el-icon-location-outline">
-                      {{
-                      detiallist.place
-                      }}
+                      {{ detiallist.place }}
                     </i>
                   </div>
                   <div>
@@ -355,9 +408,7 @@
                   <div v-if="activeName != 'third'">
                     <i>{{ $t("views.main.question") }} :</i>
                     <i v-if="typeof detiallist.qa != 'undefined'">
-                      {{
-                      $t(`views.main.${detiallist.qa}`)
-                      }}
+                      {{ $t(`views.main.${detiallist.qa}`) }}
                     </i>
                   </div>
                   <div>
@@ -385,6 +436,7 @@ import {
 } from "../api/chat";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
+import moment from "moment";
 export default {
   name: "others-chat",
   data() {
@@ -436,6 +488,7 @@ export default {
       },
       dialogImageUrl: "",
       dialogVisible: false,
+      url: "http://vip66741.com",
     };
   },
   created() {
@@ -497,6 +550,7 @@ export default {
         showClose: true,
         message: _this.$t(`views.main.notLoggedIn`),
         type: "warning",
+        duration: 3000,
       });
       if (this.$router.path !== "/") {
         this.$router.push("/");
@@ -504,13 +558,14 @@ export default {
       return;
     }
     // socket連線
-    this.socket = io.connect("http://vip66741.com/");
+    this.socket = io.connect(this.url);
     // 斷線
     this.socket.on("disconnect", () => {
       _this.$message({
         showClose: true,
         message: _this.$t("views.main.alreadydisconnect"),
         type: "warning",
+        duration: 3000,
       });
       Cookies.remove("chattoken");
       _this.socket.disconnect();
@@ -519,17 +574,15 @@ export default {
       }
     });
     // 判斷雙開
-    this.socket.on("double", function (data) {
-      console.log("double");
-      console.log(data);
+    this.socket.on("double", function(data) {
       double = data;
       if (data == "yes") {
         _this.$message({
           showClose: true,
           message: _this.$t(`views.main.notSupportDoubleOpening`),
           type: "warning",
+          duration: 3000,
         });
-        // alert(_this.$t(`views.main.notSupportDoubleOpening`));
         Cookies.remove("chattoken");
         _this.socket.disconnect();
         if (_this.$router.path !== "/") {
@@ -539,26 +592,23 @@ export default {
       }
     });
     // 拿取頭貼
-    this.socket.on("getpic", function (pic) {
-      console.log("getpic");
+    this.socket.on("getpic", function(pic) {
       _this.photo = pic;
     });
     // 線上會員數量
-    this.socket.on("user_online", function (amount) {
-      console.log("user_online");
+    this.socket.on("user_online", function(amount) {
       _this.useronline = amount;
     });
     // 將會員顯示在表格內
-    this.socket.on("getRoom", function (
+    this.socket.on("getRoom", function(
       roomid,
       name,
       detial,
       linktime,
       service
     ) {
-      console.log("getRoom");
       var accode = name.split("("); // 分割名字 ex: 帳號(信用卡綁定名稱)
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         let str = service != false ? _this.$t("views.main.inService") : "";
         if (index == -1) {
           _this.newtableData.unshift({
@@ -609,8 +659,7 @@ export default {
       _this.activeName = "first";
     });
     // 取的所有的客服
-    this.socket.on("getallcs", function (socketId, name, bu) {
-      console.log("getallcs");
+    this.socket.on("getallcs", function(socketId, name, bu) {
       if (socketId != _this.socket.id && bu != 2) {
         // 不是本客服且客服不為離線
         _this.CsTable.unshift({
@@ -620,21 +669,19 @@ export default {
       }
     });
     // 設定mid
-    this.socket.on("getMid", function (managerid) {
-      console.log("getMid");
+    this.socket.on("getMid", function(managerid) {
       _this.accountid = managerid;
     });
     // user離開,刪除table的值
-    this.socket.on("userleave", function (roomid) {
-      console.log("userleave");
+    this.socket.on("userleave", function(roomid) {
       // 從接線大廳刪除
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData.splice(index, 1);
         }
       });
       // 從我的線上客戶刪除
-      _this.getindex(_this.mytableData, roomid).then(function (index) {
+      _this.getindex(_this.mytableData, roomid).then(function(index) {
         if (index != -1) {
           _this.mytableData.splice(index, 1);
         }
@@ -654,32 +701,39 @@ export default {
       }
     });
     // cs離開,刪除table的值
-    this.socket.on("csleave", function (socketid) {
-      console.log("csleave");
-      _this.getindexforcstable(socketid).then(function (index) {
+    this.socket.on("csleave", function(socketid) {
+      _this.getindexforcstable(socketid).then(function(index) {
         if (index != -1) {
           _this.CsTable.splice(index, 1);
         }
       });
     });
     // 接收訊息
-    this.socket.on("msgReceived", function (name, data, roomid, pic, time) {
-      console.log("msgReceived");
+    this.socket.on("msgReceived", function(name, data, roomid, pic, time) {
       if (data.msg.indexOf(_this.nickname) != -1) {
         return;
       }
       var msgstyle = "";
       var da = "";
-      if (name == _this.nickname) {
+      if (name === _this.nickname) {
         // 本客服
         msgstyle = "right";
-      } else if (name != "System") {
+      } else if (name !== "System") {
         // 會員
         _this.play();
         msgstyle = "left";
-      } else if (name == "System") {
+      } else if (name === "System") {
         // 系統
         msgstyle = "center";
+        if (data.msg.indexOf("加入") !== -1) {
+          let na = data.msg.split("");
+          data.msg = na[0] + _this.$t("views.main.join");
+        } else if (data.msg.indexOf("會員已離開") !== -1) {
+          data.msg = _this.$t("views.main.memberleave");
+        } else if (data.msg.indexOf("已離開") !== -1) {
+          let na = data.msg.split("");
+          data.msg = na[0] + _this.$t("views.main.leave");
+        }
       }
       if (data.msg.indexOf("0x1") != -1 && _this.checkImg(data.msg) == false) {
         data.msg = _this.getemoji(data.msg);
@@ -692,17 +746,18 @@ export default {
         fontstyle: "font" + msgstyle, // 訊息的style
       };
       da["image"] = _this.checkImg(data.msg); // 是否是圖片
-      if (_this.currentroom == roomid) {
+      if (_this.currentroom === roomid) {
         // 在現在服務的room中
         if (_this.checkImg(data.msg) == true) {
+          da.msg = data.msg;
           _this.srcList.push(data.msg);
         }
         _this.msglist.push(da);
       } else {
         // 不在現在服務的room中
-        _this.getindex(_this.mytableData, roomid).then(function (index) {
+        _this.getindex(_this.mytableData, roomid).then(function(index) {
           // 有傳訊息的放到第一個
-          if (index != -1 && name != "System") {
+          if (index !== -1 && name !== "System") {
             // 有在myroom中且不是系統訊息
             _this.mytableData[index].no += 1; // 通知+1
             // 移動有訊息的room到最上方
@@ -732,8 +787,7 @@ export default {
       _this.activeName = "second";
     });
     // 通知cs已進入room
-    this.socket.on("notic_getinroom", function (roomid) {
-      console.log("notic_getinroom");
+    this.socket.on("notic_getinroom", function(roomid) {
       if (_this.myroom.indexOf(roomid) == -1) {
         // 放到myroom中
         _this.myroom.push(roomid);
@@ -742,13 +796,13 @@ export default {
         // 如果myroom中只有一個room,設定現在的room為roomid
         _this.currentroom = roomid;
       }
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           // 在接線大廳中
           var data = _this.newtableData[index];
           data.no = 0;
           data.inroom = true;
-          _this.getindex(_this.mytableData, roomid).then(function (index) {
+          _this.getindex(_this.mytableData, roomid).then(function(index) {
             if (index == -1) {
               _this.mytableData.unshift(data);
               if (_this.mytableData.length == 1 && _this.roommsg.has(roomid)) {
@@ -756,7 +810,7 @@ export default {
                 _this.msglist = [];
                 _this.srcList = [];
                 _this.roommsg.get(roomid).forEach((value) => {
-                  if (_this.checkImg(value.msg) == true) {
+                  if (_this.checkImg(value.msg) === true) {
                     _this.srcList.push(value.msg);
                   }
                   _this.msglist.push(value);
@@ -778,9 +832,8 @@ export default {
       });
     });
     // 若會員有已接線的cs，設定有服務中
-    this.socket.on("getuserservice", function (roomid, color) {
-      console.log("getuserservice");
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("getuserservice", function(roomid, color) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           if (color == true) {
             _this.newtableData[index].servicestatus = _this.$t(
@@ -793,15 +846,13 @@ export default {
       });
     });
     // 設定暱稱跟帳號
-    this.socket.on("getNickname", function (nickname, accountcode) {
-      console.log("getNickname");
+    this.socket.on("getNickname", function(nickname, accountcode) {
       _this.nickname = nickname;
       _this.accountcode = accountcode;
     });
     // room中的客服(現在沒有用)
-    this.socket.on("whichcsinroom", function (csname, roomid) {
-      console.log("whichcsinroom");
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("whichcsinroom", function(csname, roomid) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData[index].csinroom.push(csname);
           _this.newtableData[index].servicestatus = _this.$t(
@@ -811,10 +862,9 @@ export default {
       });
     });
     // 通知某個cs離開room(現在沒用了)
-    this.socket.on("delcsinroom", function (csname, roomid, socketid) {
-      console.log("delcsinroom");
+    this.socket.on("delcsinroom", function(csname, roomid, socketid) {
       if (socketid != _this.socket.id) {
-        _this.getindex(_this.newtableData, roomid).then(function (index) {
+        _this.getindex(_this.newtableData, roomid).then(function(index) {
           if (index != -1) {
             // 把csinroom的cs拿掉
             let indexcs = _this.newtableData[index].csinroom.indexOf(csname);
@@ -829,9 +879,7 @@ export default {
     // 對應的chat_socket
     // this.socket.emit("correspond", chat_socket);
     // 斷線設置
-    this.socket.on("disconnect", function () {
-      console.log(double);
-      console.log("disconnect");
+    this.socket.on("disconnect", function() {
       if (double == "yes") {
         _this.tableData = [];
         _this.CsTable = [];
@@ -841,20 +889,17 @@ export default {
       _this.busyornot = "disc";
     });
     // 進入socket設置的房間
-    this.socket.on("join", function (roomid) {
-      console.log("join");
+    this.socket.on("join", function(roomid) {
       _this.socket.emit("joinRoom", roomid);
     });
     // cs在線人數
-    this.socket.on("csonline", function (amount) {
-      console.log("csonline");
+    this.socket.on("csonline", function(amount) {
       _this.online = amount;
     });
     // 設定cs狀態
     this.socket.emit("getbusy", _this.busyornot, cookie);
     // 取得聊天紀錄
-    this.socket.on("getRecord", function (record, roomid) {
-      console.log(record);
+    this.socket.on("getRecord", function(record, roomid) {
       if (record) {
         if (_this.currentroom == roomid) {
           _this.msglist = [];
@@ -875,10 +920,9 @@ export default {
       }
     });
     // cstable的狀態改變
-    this.socket.on("cschangestatus", function (socketid, bu, name) {
-      console.log("cschangestatus");
+    this.socket.on("cschangestatus", function(socketid, bu, name) {
       if (socketid != _this.socket.id) {
-        _this.getindexforcstable(socketid).then(function (index) {
+        _this.getindexforcstable(socketid).then(function(index) {
           if (index != -1 && bu == 2) {
             // 客服離線，刪除在在線客服中的客服
             _this.CsTable.splice(index, 1);
@@ -893,16 +937,15 @@ export default {
       }
     });
     // 設定等待時間 (客服有回應客戶，就會設置waittime為00:00)
-    this.socket.on("setwaittime", function (roomid) {
-      console.log("setwaittime");
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("setwaittime", function(roomid) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData[index].status = 1;
           _this.newtableData[index].waittime = "00:00";
           _this.newtableData[index].reloadtime = 0;
         }
       });
-      _this.getindex(_this.mytableData, roomid).then(function (index) {
+      _this.getindex(_this.mytableData, roomid).then(function(index) {
         if (index != -1) {
           _this.mytableData[index].status = 1;
           _this.mytableData[index].waittime = "00:00";
@@ -911,9 +954,8 @@ export default {
       });
     });
     // 用戶有傳訊息, 重新計算waittime
-    this.socket.on("reloadtime", function (roomid) {
-      console.log("reloadtime");
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("reloadtime", function(roomid) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (
           index != -1 &&
           _this.newtableData[index].status == 1 &&
@@ -922,7 +964,7 @@ export default {
           _this.newtableData[index].reloadtime = Date.parse(new Date());
         }
       });
-      _this.getindex(_this.mytableData, roomid).then(function (index) {
+      _this.getindex(_this.mytableData, roomid).then(function(index) {
         if (
           index != -1 &&
           _this.mytableData[index].status == 1 &&
@@ -936,7 +978,6 @@ export default {
     setInterval(this.getallsubtime(), 1000);
   },
   beforeDestroy() {
-    console.log("disconnect1");
     this.beforeunloadFn();
   },
   methods: {
@@ -946,19 +987,16 @@ export default {
       this.socket.disconnect();
     },
     handleRemove() {
-      console.log("handleRemove");
       this.upfile = "";
     },
     // 自動下滾到訊息最底
     scrollToBottom() {
-      console.log("scrollToBottom");
       this.$nextTick(() => {
         this.$refs.chatContent.scrollTop = this.$refs.chatContent.scrollHeight;
       });
     },
     // 點擊已接線會員切換聊天室 (若有未讀訊息，則在滾動或客服回訊息時會消失)
     handleCurrentChange(val) {
-      console.log("handleCurrentChange");
       this.scrollcnt = 0;
       var _this = this;
       if (val === null || val.room === this.currentroom) {
@@ -993,7 +1031,6 @@ export default {
     },
     // 新進線會員閃光提醒
     tableNotice({ row }) {
-      // console.log("tableNotice");
       if (row.notice != 0 && row.inroom == false && row.servicestatus == "") {
         return "warning-row";
       }
@@ -1001,7 +1038,6 @@ export default {
     },
     // cs的cookie分割
     getcookie() {
-      console.log("getcookie");
       let array = document.cookie.split("; "); // 分割cookie
       var res = {};
       array.forEach((id) => {
@@ -1012,13 +1048,14 @@ export default {
     },
     // 轉換cs的status
     statuschange(val) {
-      console.log("statuschange");
       if (this.myroom.length > 0 && val == "disc") {
         // 接線中點選離線
         this.busyornot = this.last;
         this.$message({
           type: "info",
           message: this.$t("views.main.canNotOfflineDuringWiring"),
+          showClose: true,
+          duration: 3000,
         });
         return;
       }
@@ -1028,24 +1065,24 @@ export default {
     },
     // 剔除會員
     kicked() {
-      console.log("kicked");
       this.socket.emit("kickeduser", this.currentroom);
     },
     // cs進入room
     getinroom(data) {
-      console.log("getinroom");
       var _this = this;
       if (this.busyornot === "disc") {
         this.$message({
           type: "info",
           message: this.$t("views.main.canNotConnectDuringOffline"),
+          showClose: true,
+          duration: 3000,
         });
         return;
       } else {
         if (this.myroom.indexOf(data.room) == -1) {
           this.myroom.push(data.room);
         }
-        this.getindex(this.newtableData, data.room).then(function (index) {
+        this.getindex(this.newtableData, data.room).then(function(index) {
           if (index != -1) {
             _this.newtableData[index].inroom = true;
             _this.newtableData[index].servicestatus = _this.$t(
@@ -1070,7 +1107,7 @@ export default {
             this.scrollToBottom();
           });
         }
-        this.getindex(this.mytableData, data.room).then(function (index) {
+        this.getindex(this.mytableData, data.room).then(function(index) {
           if (index == -1) {
             _this.mytableData.unshift(data);
           }
@@ -1084,13 +1121,13 @@ export default {
     },
     // 發送訊息
     publish() {
-      console.log("publish");
       if (this.currentroom == "") {
         this.form.msg = "";
         return;
       }
-      var currenttime = this.getDate("");
-      var nowtime = currenttime.split(" ");
+      var currenttime = moment().format("YYYY/MM/DD HH:mm:ss");
+      var nowtime = moment().format("HH:mm");
+      var imgtime = Math.floor(Date.now() / 1000);
       var _this = this;
       if (this.accountid.length == 0) {
         this.accountid = null;
@@ -1101,12 +1138,14 @@ export default {
           this.currentroom,
           this.upfile,
           this.photo,
-          nowtime[1]
+          nowtime,
+          imgtime
         );
         this.socket.emit(
           "insertcontent",
           this.currentroom,
-          this.upfile,
+          // this.upfile,
+          `${_this.url}/router/msgimage/${imgtime}.jpg`,
           currenttime
         );
       }
@@ -1116,7 +1155,7 @@ export default {
           this.currentroom,
           this.form.msg,
           this.photo,
-          nowtime[1]
+          nowtime
         ); //傳送資料給server
         this.form.msg = this.getformmsgemoji();
         this.socket.emit(
@@ -1127,9 +1166,7 @@ export default {
         );
       }
       if (this.form.msg != "" && this.upfile != "") {
-        this.getindex(this.mytableData, this.currentroom).then(function (
-          index
-        ) {
+        this.getindex(this.mytableData, this.currentroom).then(function(index) {
           if (index != -1) {
             _this.mytableData[index].status = 1;
             _this.mytableData[index].waittime = "00:00";
@@ -1137,7 +1174,10 @@ export default {
         });
       }
       if (this.noread.has(this.currentroom)) {
-        let cnt = this.noread.get(this.currentroom).values().next().value;
+        let cnt = this.noread
+          .get(this.currentroom)
+          .values()
+          .next().value;
         let nodata = this.msglist[cnt];
         this.msglist.splice(cnt, 1);
         this.roommsg.get(this.currentroom).delete(nodata);
@@ -1149,38 +1189,66 @@ export default {
     },
     // 判斷圖有沒有超過300kb，並把圖轉成base64輸出
     getFile(file) {
-      console.log("getfile");
-      let maxsize = 1024 * 300; // 300KB
+      let maxsize = 1024 * 500; // 300KB
       if (file.size > maxsize) {
         this.$message({
-          message: this.$t("views.main.pic_should_not_bigger_than") + "300KB",
+          message: this.$t("views.main.pic_should_not_bigger_than") + "500KB",
           type: "warning",
+          showClose: true,
+          duration: 3000,
         });
         this.$refs.upload.clearFiles();
       } else {
         this.getBase64(file.raw).then((res) => {
           this.upfile = res;
-          this.form.msg + "\n" + res;
+          // this.form.msg + "\n" + res;
           // this.form.msg
         });
       }
     },
     // 把圖轉乘base64
     getBase64(file) {
-      console.log("getbase64");
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         let reader = new FileReader();
         let imgResult = "";
         reader.readAsDataURL(file);
-        reader.onload = function () {
+        reader.onload = function() {
           imgResult = reader.result;
+          let newImage = new Image();
+          newImage.src = imgResult;
+          let imgWidth, imgHeight;
+          newImage.onload = function() {
+            imgWidth = this.width;
+            imgHeight = this.height;
+            let myWidth = 500;
+            let canvas = document.createElement("canvas");
+            let ctx = canvas.getContext("2d");
+            if (Math.max(imgWidth, imgHeight) > myWidth) {
+              if (imgWidth > imgHeight) {
+                canvas.width = myWidth;
+                canvas.height = (myWidth * imgHeight) / imgWidth;
+              } else {
+                canvas.height = myWidth;
+                canvas.width = (myWidth * imgWidth) / imgHeight;
+              }
+            } else {
+              canvas.width = imgWidth;
+              canvas.height = imgHeight;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+            imgResult = canvas.toDataURL("image/jpeg", 0.8);
+            // console.log(imgResult);
+            resolve(imgResult);
+          };
         };
-        reader.onerror = function (error) {
+        reader.onerror = function(error) {
           reject(error);
         };
-        reader.onloadend = function () {
-          resolve(imgResult);
-        };
+        // reader.onloadend = function () {
+        //   resolve(imgResult);
+        // };
       });
     },
     // 設定會員紀錄
@@ -1205,7 +1273,6 @@ export default {
         chat_name = index.mid;
         msgstyle = "right";
       } else if (typeof index.uid == "string" && index.uid !== "") {
-        console.log(index.ui);
         chat_name = index.uid;
         msgstyle = "left";
       } else {
@@ -1237,7 +1304,6 @@ export default {
     },
     // 訊息時間
     getDate(indate) {
-      console.log("getdate");
       var date = "";
       if (indate == "") {
         date = new Date();
@@ -1282,7 +1348,6 @@ export default {
     },
     // 搜尋new/mytable裡對應roomid的index
     getindex(table, roomid) {
-      console.log("getindex");
       return new Promise((resolve) => {
         var count = 0;
         table.forEach((value, index) => {
@@ -1299,7 +1364,6 @@ export default {
     },
     // 搜尋cstable裡對應cs的index
     getindexforcstable(socketid) {
-      console.log("getindexforcstable");
       var _this = this;
       var skid = socketid;
       return new Promise((resolve) => {
@@ -1318,7 +1382,6 @@ export default {
     },
     // 轉換時間
     gettimesub(faultDate) {
-      // console.log("gettimesub");
       var stime = faultDate;
       var etime = Date.parse(new Date());
       var usedTime = etime - stime;
@@ -1336,7 +1399,6 @@ export default {
     },
     // 計算等待時間跟連線時間
     getallsubtime() {
-      // console.log("getallsubtime")
       if (this.newtableData.length != 0) {
         this.newtableData.forEach((value, index) => {
           if (typeof value != "undefined") {
@@ -1399,21 +1461,28 @@ export default {
       this.form.msg = this.form.msg + "\n";
     },
     // 判斷是否是圖片
+    // checkImg(data) {
+    //   let array = data.split(",", 2);
+    //   var string = "";
+    //   if (array[0].indexOf("data:image/") == -1) {
+    //     return false;
+    //   }
+    //   try {
+    //     string = btoa(atob(array[1]));
+    //   } catch (e) {
+    //     return false;
+    //   }
+    //   if (string == array[1]) {
+    //     return true;
+    //   }
+    //   return false;
+    // },
     checkImg(data) {
-      let array = data.split(",", 2);
-      var string = "";
-      if (array[0].indexOf("data:image/") == -1) {
-        return false;
-      }
-      try {
-        string = btoa(atob(array[1]));
-      } catch (e) {
-        return false;
-      }
-      if (string == array[1]) {
+      if (data.indexOf("/router/msgimage/") !== -1) {
         return true;
+      } else {
+        return false;
       }
-      return false;
     },
     // 點擊罐頭訊息並放到輸入內容中
     handleChange(value) {
@@ -1437,7 +1506,6 @@ export default {
     },
     // 拿取今天有紀錄的所有roomid
     handleClick() {
-      console.log("handleClick");
       let _this = this;
       if (this.activeName == "third") {
         let date2 = new Date();
@@ -1449,13 +1517,14 @@ export default {
           stime: date[0],
           etime: date[1],
         };
+        console.log(tmp);
         getroom(tmp).then((res) => {
-          if (res !== "error") {
+          if (res !== "error" && res !== "") {
             res.forEach((x) => {
-              this.getindex(this.tableData, x.room).then(function (index) {
+              this.getindex(this.tableData, x.room).then(function(index) {
                 _this
                   .getindex(_this.newtableData, x.room)
-                  .then(function (index2) {
+                  .then(function(index2) {
                     let truetime = 0;
                     if (index2 != -1) {
                       truetime = 1;
@@ -1493,7 +1562,6 @@ export default {
     },
     // 拿取今天有客戶紀錄
     handleRecord(data) {
-      console.log("handleRecord");
       this.msglist = [];
       this.srcList = [];
       let date2 = new Date();
@@ -1511,6 +1579,7 @@ export default {
           etime: date[1],
         };
         getMemberMsg(tmp).then((res) => {
+          console.log("getmembermsg");
           if (res !== "error") {
             for (let x in res) {
               let da = "";
@@ -1538,10 +1607,11 @@ export default {
                   style: "right",
                   fontstyle: "fontright",
                 };
-                if (this.checkImg(res[x].content) == true) {
+                da["image"] = this.checkImg(res[x].content);
+                if (this.checkImg(res[x].content) === true) {
+                  da.msg = res[x].content;
                   this.srcList.push(res[x].content);
                 }
-                da["image"] = this.checkImg(res[x].content);
                 this.recordmsg.get(data.room).add(da);
                 this.msglist.push(da);
               } else if (typeof res[x].uid == "string" && res[x].uid !== "") {
@@ -1560,6 +1630,7 @@ export default {
                 };
                 da["image"] = this.checkImg(res[x].content);
                 if (this.checkImg(res[x].content) == true) {
+                  da.msg = res[x].content;
                   this.srcList.push(res[x].content);
                 }
                 this.recordmsg.get(data.room).add(da);
@@ -1668,7 +1739,6 @@ export default {
       return comp.toString("16");
     },
     beforeunloadFn() {
-      console.log("beforeunloadFn");
       if (this.socket !== "") {
         Cookies.remove("chattoken");
         this.socket.disconnect();
@@ -1676,7 +1746,6 @@ export default {
     },
     // 拿取會員的資訊
     getroomdetial(data) {
-      console.log("getroomdetial");
       this.detiallist = {};
       if (this.roomdetial.has(data.room)) {
         let turn = this.roomdetial.get(data.room).values();
@@ -1703,7 +1772,6 @@ export default {
     },
     // 會員資訊的位置
     getlocalvalue(obj) {
-      console.log("getlocalvalue");
       let ary = [];
       obj.forEach((value) => {
         if (value != "") {
@@ -1733,7 +1801,10 @@ export default {
         this.noread.has(this.currentroom) &&
         this.activeName != "third"
       ) {
-        let cnt = this.noread.get(this.currentroom).values().next().value;
+        let cnt = this.noread
+          .get(this.currentroom)
+          .values()
+          .next().value;
         let nodata = this.msglist[cnt];
         this.msglist.splice(cnt, 1);
         this.roommsg.get(this.currentroom).delete(nodata);
@@ -1743,7 +1814,6 @@ export default {
     },
   },
   destroyed() {
-    console.log("destroyed");
     window.removeEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
 };

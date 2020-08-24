@@ -2,8 +2,8 @@ let publicPath = "/";
 module.exports = {
   pluginOptions: {
     i18n: {
-      locale: "en",
-      fallbackLocale: "en",
+      locale: "ch",
+      fallbackLocale: "ch",
       localeDir: "locales",
       enableInSFC: false,
     },
