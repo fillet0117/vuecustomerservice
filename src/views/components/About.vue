@@ -196,8 +196,6 @@
                       <i :class="item.fontstyle">{{ item.msg }}</i>
                     </li>
                   </ul>
-                  <br />
-                  <br />
                 </div>
               </el-row>
               <el-row>
@@ -271,7 +269,7 @@
                   :props="{ multiple: false }"
                   v-model="value"
                   :options="options"
-                  expand-trigger="click"
+                  expandTrigger="click"
                   size="medium"
                   style="margin-top: 5px"
                   @change="handleChange"
@@ -829,6 +827,10 @@ export default {
         for (let key of record) {
           _this.addRecord(key, roomid);
         }
+      } else {
+        if (!_this.roommsg.has(roomid)) {
+          _this.roommsg.set(roomid, new Set());
+        }
       }
     });
     // cstable的狀態改變
@@ -1159,7 +1161,7 @@ export default {
     },
     // 設定會員紀錄
     addRecord(index, roomid) {
-      console.log("addrecord");
+      // console.log("addrecord");
       let currenttime = this.getDate(index.created_at);
       let nowtime = currenttime.split(" ");
       if (nowtime[0] != this.pretime) {
@@ -1468,7 +1470,7 @@ export default {
           etime: date[1],
         };
         getMemberMsg(tmp).then((res) => {
-          console.log("getmembermsg");
+          // console.log("getmembermsg");
           if (res !== "error") {
             for (let x in res) {
               let da = "";

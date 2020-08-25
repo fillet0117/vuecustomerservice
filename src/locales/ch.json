@@ -56,7 +56,8 @@
       "pic_should_not_bigger_than": "图片不能超过",
       "AccountOrNickname": "昵称或帐号",
       "Chat": "客服聊天室",
-      "MemberChatRecord": "会员讯息纪录"
+      "MemberChatRecord": "会员讯息纪录",
+      "notSupportDoubleOpening": "不支援双开"
     }
   }
 }

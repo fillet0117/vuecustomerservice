@@ -11,7 +11,7 @@
       <!-- <el-tab-pane :label="$t('views.main.cannedmessage')" name="2">
         <canmsg />
       </el-tab-pane>-->
-      <el-tab-pane :label="$t('views.main.MemberChatRecord')" name="3">
+      <el-tab-pane :label="$t('views.main.MemberChatRecord')">
         <membermsg />
       </el-tab-pane>
     </el-tabs>
@@ -19,10 +19,9 @@
 </template>
 <script>
 import cschat from "./components/About";
-// import cancategory from "./components/cancategory/index";
+// import cancategory from "./components/Cancategory";
 // import canmsg from "./components/canmsg/index";
 import membermsg from "./components/Record";
-// import { getbox2height } from "@/libs/getbox2height";
 import Cookies from "js-cookie";
 export default {
   name: "others-chat",
@@ -36,7 +35,6 @@ export default {
     submit() {
       Cookies.remove("chattoken");
       this.$router.push("/");
-      // this.socket.disconnect();
     },
   },
 };
