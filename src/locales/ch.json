@@ -53,7 +53,10 @@
       "join": "加入",
       "memberleave": "会员已离开",
       "leave": "已离开",
-      "pic_should_not_bigger_than": "图片不能超过"
+      "pic_should_not_bigger_than": "图片不能超过",
+      "AccountOrNickname": "昵称或帐号",
+      "Chat": "客服聊天室",
+      "MemberChatRecord": "会员讯息纪录"
     }
   }
 }

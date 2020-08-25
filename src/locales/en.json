@@ -53,7 +53,10 @@
       "join": "join",
       "memberleave": "Member has left",
       "leave": "leave",
-      "pic_should_not_bigger_than": "The picture cannot exceed"
+      "pic_should_not_bigger_than": "The picture cannot exceed",
+      "AccountOrNickname": "Nickname or account",
+      "Chat": "Chat",
+      "MemberChatRecord": "Member message record"
     }
   }
 }

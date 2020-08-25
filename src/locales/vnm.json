@@ -53,7 +53,10 @@
       "join": "tham gia",
       "memberleave": "Thành viên đã rời đi",
       "leave": "rời khỏi",
-      "pic_should_not_bigger_than": "Hình ảnh không được vượt quá"
+      "pic_should_not_bigger_than": "Hình ảnh không được vượt quá",
+      "AccountOrNickname": "Biệt hiệu hoặc tài khoản",
+      "Chat": "trò chuyện",
+      "MemberChatRecord": "Hồ sơ thông tin thành viên"
     }
   }
 }

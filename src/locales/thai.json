@@ -53,7 +53,10 @@
       "join": "เข้าร่วม",
       "memberleave": "สมาชิกออกไปแล้ว",
       "leave": "ออกจาก",
-      "pic_should_not_bigger_than": "รูปภาพต้องไม่เกิน"
+      "pic_should_not_bigger_than": "รูปภาพต้องไม่เกิน",
+      "AccountOrNickname": "ชื่อเล่นหรือบัญชี",
+      "Chat": "แชท",
+      "MemberChatRecord": "บันทึกข้อมูลสมาชิก"
     }
   }
 }
