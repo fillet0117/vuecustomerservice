@@ -346,24 +346,25 @@ export default {
           var area = "";
           if (res != "") {
             try {
-              var obj = JSON.parse(res[0].area);
-              let ary = [];
-              obj.forEach((value) => {
-                if (value != "") {
-                  ary.push(value);
-                }
-              });
-              if (ary.length == 3) {
-                if (ary[1] == "台湾") {
-                  area = ary[2] + " , " + ary[1];
-                } else {
-                  area = ary[2] + " , " + ary[1] + " , " + ary[0];
-                }
-              } else if (ary.length == 2) {
-                area = ary[1] + " , " + ary[0];
-              } else if (ary.length == 1) {
-                area = ary[0];
-              }
+              area = res[0].area;
+              // var obj = JSON.parse(res[0].area);
+              // let ary = [];
+              // obj.forEach((value) => {
+              //   if (value != "") {
+              //     ary.push(value);
+              //   }
+              // });
+              // if (ary.length == 3) {
+              //   if (ary[1] == "台湾") {
+              //     area = ary[2] + " , " + ary[1];
+              //   } else {
+              //     area = ary[2] + " , " + ary[1] + " , " + ary[0];
+              //   }
+              // } else if (ary.length == 2) {
+              //   area = ary[1] + " , " + ary[0];
+              // } else if (ary.length == 1) {
+              //   area = ary[0];
+              // }
             } catch (e) {
               return;
             } finally {

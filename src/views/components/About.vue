@@ -346,13 +346,12 @@ import {
   getCanCategory,
   getMemberMsg,
   getroom,
-  getlocal,
-  getemoji,
   getdetial,
 } from "../../api/chat";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
 import moment from "moment";
+import { emoji } from "../../assets/emoji";
 export default {
   name: "others-chat",
   data() {
@@ -481,6 +480,7 @@ export default {
         duration: 3000,
       });
       Cookies.remove("chattoken");
+      _this.$router.push("/");
       _this.socket.disconnect();
     });
     // 判斷雙開
@@ -536,35 +536,15 @@ export default {
           });
         }
       });
-      // 會員的資訊
-      let tmp = {
-        name: accode[0], // 會員帳號
-        ip: detial.ip, // ip地址
-        qa: detial.qa, // question
-        os: detial.os, // 操作系統
-        browser: detial.browser, // 瀏覽器
-        device: detial.device, // 設備
-        height: detial.height, // 高
-        width: detial.width, // 寬
-        lasttime: linktime,
-      };
-      getlocal(tmp).then(
-        // 取的會員所在的位置 ex: ["中國","某地","某地"]
-        (res) => {
-          if (res !== "error") {
-            var obj = JSON.parse(res);
-            detial["accountcode"] = accode[0];
-            detial["place"] = _this.getlocalvalue(obj);
-            if (!_this.roomdetial.has(roomid)) {
-              _this.roomdetial.set(roomid, new Set());
-              _this.roomdetial.get(roomid).add(detial);
-            }
-            if (_this.myroom.length == 1) {
-              _this.detiallist = detial;
-            }
-          }
-        }
-      );
+      detial["accountcode"] = accode[0];
+      detial["place"] = detial.area;
+      if (!_this.roomdetial.has(roomid)) {
+        _this.roomdetial.set(roomid, new Set());
+        _this.roomdetial.get(roomid).add(detial);
+      }
+      if (_this.myroom.length == 1) {
+        _this.detiallist = detial;
+      }
       // tab跳轉,有人進線就跳到接線大廳
       _this.activeName = "first";
     });
@@ -890,6 +870,13 @@ export default {
     });
     // 計算等待跟連線時間用
     setInterval(this.getallsubtime(), 1000);
+    var siv = setInterval(function () {
+      if (_this.socket !== undefined && _this.socket.connected === false) {
+        Cookies.remove("chattoken");
+        _this.$router.push("/");
+        clearInterval(siv);
+      }
+    }, 600000);
   },
   beforeDestroy() {
     this.beforeunloadFn();
@@ -1568,17 +1555,11 @@ export default {
     },
     // 拿取資料庫中的emoji
     setemojis() {
-      getemoji().then((res) => {
-        if (res !== "error") {
-          for (let x in res) {
-            let str = String.fromCodePoint(res[x]);
-            this.emojis.push(str);
-          }
-        } else {
-          Cookies.remove("chattoken");
-          this.socket.disconnect();
-        }
-      });
+      console.log(emoji);
+      for (let x in emoji.emojis) {
+        let str = String.fromCodePoint(emoji.emojis[x]);
+        this.emojis.push(str);
+      }
     },
     // 判斷輸入的文字有無emoji，並將emoji轉成16進制字串
     getformmsgemoji() {
