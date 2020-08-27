@@ -106,6 +106,7 @@
 <script>
 import { getMemberMsg, getdetial, getroom } from "../../api/chat";
 import Cookies from "js-cookie";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -153,16 +154,18 @@ export default {
       etime: this.date[1],
     };
     getroom(tmp).then((res) => {
-      for (let x in res) {
-        let lt = "";
-        if (res[x].lasttime != false) {
-          lt = this.getDate(parseInt(res[x].lasttime));
+      if (res !== "error") {
+        for (let x in res) {
+          let lt = "";
+          if (res[x].lasttime != false) {
+            lt = moment(res[x].lasttime).format("YYYY/MM/DD HH:mm:ss");
+          }
+          this.tableData.push({
+            name: res[x].roomname,
+            room: res[x].room,
+            linktime: lt,
+          });
         }
-        this.tableData.push({
-          name: res[x].roomname,
-          room: res[x].room,
-          linktime: lt,
-        });
       }
     });
     this.roommsg = new Map();
@@ -194,6 +197,9 @@ export default {
         getMemberMsg(tmp).then((res) => {
           for (let x in res) {
             let da = "";
+            res[x].created_at = moment(res[x].created_at).format(
+              "YYYY/MM/DD HH:mm:ss"
+            );
             let time = res[x].created_at.split(" ");
             if (time[0] != this.msgtime) {
               da = {
@@ -347,24 +353,6 @@ export default {
           if (res != "") {
             try {
               area = res[0].area;
-              // var obj = JSON.parse(res[0].area);
-              // let ary = [];
-              // obj.forEach((value) => {
-              //   if (value != "") {
-              //     ary.push(value);
-              //   }
-              // });
-              // if (ary.length == 3) {
-              //   if (ary[1] == "台湾") {
-              //     area = ary[2] + " , " + ary[1];
-              //   } else {
-              //     area = ary[2] + " , " + ary[1] + " , " + ary[0];
-              //   }
-              // } else if (ary.length == 2) {
-              //   area = ary[1] + " , " + ary[0];
-              // } else if (ary.length == 1) {
-              //   area = ary[0];
-              // }
             } catch (e) {
               return;
             } finally {
@@ -385,16 +373,18 @@ export default {
         etime: this.date[1],
       };
       getroom(tmp).then((res) => {
-        for (let x in res) {
-          let lt = "";
-          if (res[x].lasttime != false) {
-            lt = this.getDate(parseInt(res[x].lasttime));
+        if (res !== "error") {
+          for (let x in res) {
+            let lt = "";
+            if (res[x].lasttime != false) {
+              lt = moment(res[x].lasttime).format("YYYY/MM/DD HH:mm:ss");
+            }
+            this.tableData.push({
+              name: res[x].roomname,
+              room: res[x].room,
+              linktime: lt,
+            });
           }
-          this.tableData.push({
-            name: res[x].roomname,
-            room: res[x].room,
-            linktime: lt,
-          });
         }
       });
     },

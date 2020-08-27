@@ -27,7 +27,8 @@
               >{{ $t("views.main.memberOnline") }} : {{ useronline }}</h3>
             </el-col>
             <el-col :span="7">
-              <audio controls="controls" hidden src="http://vip66741.com/aud" ref="audio"></audio>
+              <audio controls="controls" hidden src="../../assets/ring.mp3" ref="audio"></audio>
+              <!-- <audio controls="controls" hidden src="./aud" ref="audio"></audio> -->
             </el-col>
           </el-row>
           <el-row :gutter="10">
@@ -403,7 +404,7 @@ export default {
       },
       dialogImageUrl: "",
       dialogVisible: false,
-      url: "http://vip66741.com",
+      // url: "http://192.168.2.87:4477",
     };
   },
   created() {
@@ -470,7 +471,9 @@ export default {
       return;
     }
     // socket連線
-    this.socket = io.connect(this.url);
+    // this.socket = io.connect(this.url);
+    // this.socket = io.connect("http://192.168.2.87:4477");
+    this.socket = io.connect();
     // 斷線
     this.socket.on("disconnect", () => {
       _this.$message({
@@ -1042,7 +1045,7 @@ export default {
           "insertcontent",
           this.currentroom,
           // this.upfile,
-          `${_this.url}/router/msgimage/${imgtime}.jpg`,
+          `./router/msgimage/${imgtime}.jpg`,
           currenttime
         );
       }
@@ -1409,7 +1412,8 @@ export default {
                     }
                     let lt = "";
                     if (x.lasttime != false) {
-                      lt = _this.getDate(parseInt(x.lasttime));
+                      // lt = _this.getDate(parseInt(x.lasttime));
+                      lt = moment(x.lasttime).format("YYYY/MM/DD HH:mm:ss");
                     }
                     if (index == -1) {
                       _this.tableData.push({
@@ -1461,6 +1465,9 @@ export default {
           if (res !== "error") {
             for (let x in res) {
               let da = "";
+              res[x].created_at = moment(res[x].created_at).format(
+                "YYYY/MM/DD HH:mm:ss"
+              );
               let time = res[x].created_at.split(" ");
               if (time[0] != this.msgtime) {
                 da = {
@@ -1555,7 +1562,6 @@ export default {
     },
     // 拿取資料庫中的emoji
     setemojis() {
-      console.log(emoji);
       for (let x in emoji.emojis) {
         let str = String.fromCodePoint(emoji.emojis[x]);
         this.emojis.push(str);
