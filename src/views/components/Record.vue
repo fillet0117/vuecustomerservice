@@ -350,7 +350,7 @@ export default {
         }
         getdetial(tmp).then((res) => {
           var area = "";
-          if (res != "") {
+          if (res !== "" && res !== "error") {
             try {
               area = res[0].area;
             } catch (e) {

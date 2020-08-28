@@ -348,6 +348,7 @@ import {
   getMemberMsg,
   getroom,
   getdetial,
+  geturl,
 } from "../../api/chat";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
@@ -405,6 +406,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       // url: "http://192.168.2.87:4477",
+      url: "",
     };
   },
   created() {
@@ -412,6 +414,9 @@ export default {
     // window.addEventListener("beforeunload", (e) => this.beforeunloadFn(e));
   },
   mounted() {
+    geturl().then((res) => {
+      this.url = res;
+    });
     // 設定emoji
     this.setemojis();
     // 會員的等待時間
@@ -421,8 +426,8 @@ export default {
       if (res !== "error") {
         res.forEach((index) => {
           this.options.push({
-            value: index.value,
-            label: index.value,
+            value: index.content,
+            label: index.content,
             id: index.id,
             children: [],
           });
@@ -435,16 +440,13 @@ export default {
               );
               if (op_index != -1) {
                 this.options[op_index].children.push({
-                  value: index.value,
-                  label: index.value,
+                  value: index.content,
+                  label: index.content,
                 });
               }
             });
           }
         });
-      } else {
-        Cookies.remove("chattoken");
-        this.socket.disconnect();
       }
     });
     // 初始設定
@@ -465,15 +467,17 @@ export default {
         type: "warning",
         duration: 3000,
       });
-      if (this.$router.path !== "/") {
-        this.$router.push("/");
+      if (_this.$route.path !== "/") {
+        _this.$router.push("/").catch((err) => {
+          console.log(err);
+        });
       }
       return;
     }
     // socket連線
     // this.socket = io.connect(this.url);
     // this.socket = io.connect("http://192.168.2.87:4477");
-    this.socket = io.connect();
+    this.socket = io.connect(this.url);
     // 斷線
     this.socket.on("disconnect", () => {
       _this.$message({
@@ -483,7 +487,12 @@ export default {
         duration: 3000,
       });
       Cookies.remove("chattoken");
-      _this.$router.push("/");
+      // _this.$router.push("/");
+      if (_this.$route.path !== "/") {
+        _this.$router.push("/").catch((err) => {
+          console.log(err);
+        });
+      }
       _this.socket.disconnect();
     });
     // 判斷雙開
@@ -498,8 +507,13 @@ export default {
         });
         Cookies.remove("chattoken");
         _this.socket.disconnect();
-        if (_this.$router.path !== "/") {
-          _this.$router.push("/");
+        // if (_this.$router.path !== "/") {
+        //   _this.$router.push("/");
+        // }
+        if (_this.$route.path !== "/") {
+          _this.$router.push("/").catch((err) => {
+            console.log(err);
+          });
         }
         return;
       }
@@ -876,7 +890,12 @@ export default {
     var siv = setInterval(function () {
       if (_this.socket !== undefined && _this.socket.connected === false) {
         Cookies.remove("chattoken");
-        _this.$router.push("/");
+        // _this.$router.push("/");
+        if (_this.$route.path !== "/") {
+          _this.$router.push("/").catch((err) => {
+            console.log(err);
+          });
+        }
         clearInterval(siv);
       }
     }, 600000);
@@ -1634,10 +1653,10 @@ export default {
           this.roomdetial.set(data.room, new Set());
         }
         getdetial(tmp).then((res) => {
-          if (res !== "error") {
-            var obj = JSON.parse(res[0].area);
-            var area = this.getlocalvalue(obj);
-            res[0]["place"] = area;
+          if (res !== "error" && res !== "") {
+            // var obj = JSON.parse(res[0].area);
+            // var area = this.getlocalvalue(obj);
+            res[0]["place"] = res[0].area;
             res[0]["accountcode"] = res[0].name;
             this.roomdetial.get(data.room).add(res[0]);
             this.detiallist = res[0];
@@ -1646,29 +1665,29 @@ export default {
       }
     },
     // 會員資訊的位置
-    getlocalvalue(obj) {
-      let ary = [];
-      obj.forEach((value) => {
-        if (value != "") {
-          ary.push(value);
-        }
-      });
-      var area = "";
-      if (ary.length == 3) {
-        if (ary[1] == "台湾") {
-          area = ary[2] + " , " + ary[1];
-        } else {
-          area = ary[2] + " , " + ary[1] + " , " + ary[0];
-        }
-      } else if (ary.length == 2) {
-        area = ary[1] + " , " + ary[0];
-      } else if (ary.length == 1) {
-        area = ary[0];
-      } else if (ary.length == 4) {
-        area = ary[3] + " , " + ary[2] + " , " + ary[1] + " , " + ary[0];
-      }
-      return area;
-    },
+    // getlocalvalue(obj) {
+    //   let ary = [];
+    //   obj.forEach((value) => {
+    //     if (value != "") {
+    //       ary.push(value);
+    //     }
+    //   });
+    //   var area = "";
+    //   if (ary.length == 3) {
+    //     if (ary[1] == "台湾") {
+    //       area = ary[2] + " , " + ary[1];
+    //     } else {
+    //       area = ary[2] + " , " + ary[1] + " , " + ary[0];
+    //     }
+    //   } else if (ary.length == 2) {
+    //     area = ary[1] + " , " + ary[0];
+    //   } else if (ary.length == 1) {
+    //     area = ary[0];
+    //   } else if (ary.length == 4) {
+    //     area = ary[3] + " , " + ary[2] + " , " + ary[1] + " , " + ary[0];
+    //   }
+    //   return area;
+    // },
     // 滾動事件，用來讓未讀訊息消失的
     scrollEvent() {
       if (

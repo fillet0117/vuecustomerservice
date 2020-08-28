@@ -111,3 +111,10 @@ export function getdetial(data) {
     data,
   });
 }
+
+export function geturl() {
+  return request({
+    url: "/geturl",
+    method: "post",
+  });
+}

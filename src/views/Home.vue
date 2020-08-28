@@ -55,7 +55,7 @@
 </template>
 
 <script>
-// import { login } from "../api/login";
+import { login } from "../api/login";
 import Cookies from "js-cookie";
 export default {
   name: "Home",
@@ -77,16 +77,16 @@ export default {
   },
   methods: {
     submit() {
-      // login(this.ruleForm).then((res) => {
-      //   if (res !== "error") {
-      //     let currentCookieSetting = {
-      //       expires: 1,
-      //     };
-      //     Cookies.set("chattoken", res, currentCookieSetting);
-      //     this.$router.push("/about");
-      //   }
-      // });
-      this.$router.push("/about");
+      login(this.ruleForm).then((res) => {
+        if (res !== "error") {
+          let currentCookieSetting = {
+            expires: 1,
+          };
+          Cookies.set("SameSite", "Strict");
+          Cookies.set("chattoken", res, currentCookieSetting);
+          this.$router.push("/about");
+        }
+      });
     },
     handleEdit(lang) {
       this.$i18n.locale = lang;
