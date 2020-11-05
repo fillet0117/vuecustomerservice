@@ -1,5 +1,6 @@
 <template>
   <div class="content-Box">
+    <notifications group="foo" position="top right" />
     <el-row :gutter="20">
       <el-col :span="5">
         <el-row :gutter="10">
@@ -18,10 +19,17 @@
             @current-change="handleCurrentChange"
             height="750"
             style="width: 100%; margin-top: 15px;"
-            :row-style="{height: '30px'}"
+            :row-style="{ height: '10px' }"
+            highlight-current-row
           >
-            <el-table-column property="name" :label="$t('views.main.nickname')"></el-table-column>
-            <el-table-column property="linktime" :label="$t('views.main.lastEntry')"></el-table-column>
+            <el-table-column
+              property="name"
+              :label="$t('views.main.nickname')"
+            ></el-table-column>
+            <el-table-column
+              property="linktime"
+              :label="$t('views.main.lastEntry')"
+            ></el-table-column>
           </el-table>
         </el-row>
       </el-col>
@@ -32,7 +40,10 @@
             <li v-if="item.style == 'divider'">
               <el-divider>{{ item.msg }}</el-divider>
             </li>
-            <li v-if="item.style !== 'divider' && item.image === false" :class="item.style">
+            <li
+              v-if="item.style !== 'divider' && item.image === false"
+              :class="item.style"
+            >
               <div v-if="item.fontstyle == 'fontright'">
                 <i :class="item.fontstyle">{{ item.msg }}</i>
                 <b>{{ item.name }}</b>
@@ -45,15 +56,26 @@
               </div>
               <i class="time">{{ item.curtime }}</i>
             </li>
-            <li v-if="item.style !== 'divider' && item.image" :class="item.style">
+            <li
+              v-if="item.style !== 'divider' && item.image"
+              :class="item.style"
+            >
               <div v-if="item.fontstyle == 'fontright'">
-                <el-image v-if="item.image" :src="item.msg" :preview-src-list="srcList"></el-image>
+                <el-image
+                  v-if="item.image"
+                  :src="item.msg"
+                  :preview-src-list="srcList"
+                ></el-image>
                 <b>{{ item.name }}</b>
                 <br />
               </div>
               <div v-if="item.fontstyle == 'fontleft'">
                 <b style="margin-right: 5px;">{{ item.name }}</b>
-                <el-image v-if="item.image" :src="item.msg" :preview-src-list="srcList"></el-image>
+                <el-image
+                  v-if="item.image"
+                  :src="item.msg"
+                  :preview-src-list="srcList"
+                ></el-image>
                 <br />
               </div>
               <i class="time">{{ item.curtime }}</i>
@@ -66,37 +88,44 @@
       <el-col :span="6">
         <el-card class="userdetial" style="margin-top: 17px">
           <div slot="header" class="clearfix">
-            <span>{{$t('views.main.member_information')}}</span>
+            <span>{{ $t("views.main.member_information") }}</span>
           </div>
           <div>
             <i
               v-if="typeof detiallist != 'undefined'"
               class="el-icon-location-outline"
-            >{{detiallist.place}}</i>
+              >{{ detiallist.place }}</i
+            >
           </div>
           <div>
-            <i>{{$t('views.main.AccountOrNickname')}} :</i>
-            <i v-if="typeof detiallist != 'undefined'">{{detiallist.name}}</i>
+            <i>{{ $t("views.main.AccountOrNickname") }} :</i>
+            <i v-if="typeof detiallist != 'undefined'">{{ detiallist.name }}</i>
           </div>
           <div>
-            <i>IP{{$t('views.main.address')}} :</i>
-            <i v-if="typeof detiallist != 'undefined'">{{detiallist.ip}}</i>
+            <i>IP{{ $t("views.main.address") }} :</i>
+            <i v-if="typeof detiallist != 'undefined'">{{ detiallist.ip }}</i>
           </div>
           <div>
-            <i>{{$t('views.main.browser')}} :</i>
-            <i v-if="typeof detiallist != 'undefined'">{{detiallist.browser}}</i>
+            <i>{{ $t("views.main.browser") }} :</i>
+            <i v-if="typeof detiallist != 'undefined'">{{
+              detiallist.browser
+            }}</i>
           </div>
           <div>
-            <i>{{$t('views.main.os')}} :</i>
-            <i v-if="typeof detiallist != 'undefined'">{{detiallist.os}}</i>
+            <i>{{ $t("views.main.os") }} :</i>
+            <i v-if="typeof detiallist != 'undefined'">{{ detiallist.os }}</i>
           </div>
           <div>
-            <i>{{$t('views.main.device')}} :</i>
-            <i v-if="typeof detiallist != 'undefined'">{{detiallist.device}}</i>
+            <i>{{ $t("views.main.device") }} :</i>
+            <i v-if="typeof detiallist != 'undefined'">{{
+              detiallist.device
+            }}</i>
           </div>
           <div>
-            <i>{{$t('views.main.viewport')}} :</i>
-            <i v-if="typeof detiallist != 'undefined'">{{detiallist.height}} x {{detiallist.width}}</i>
+            <i>{{ $t("views.main.viewport") }} :</i>
+            <i v-if="typeof detiallist != 'undefined'"
+              >{{ detiallist.height }} x {{ detiallist.width }}</i
+            >
           </div>
         </el-card>
       </el-col>
@@ -156,14 +185,14 @@ export default {
     getroom(tmp).then((res) => {
       if (res !== "error") {
         for (let x in res) {
-          let lt = "";
+          let lt = [];
           if (res[x].lasttime != false) {
-            lt = moment(res[x].lasttime).format("YYYY/MM/DD HH:mm:ss");
+            lt[x] = moment(res[x].lasttime).format("YYYY/MM/DD HH:mm:ss");
           }
           this.tableData.push({
             name: res[x].roomname,
             room: res[x].room,
-            linktime: lt,
+            linktime: lt[x],
           });
         }
       }
@@ -197,9 +226,9 @@ export default {
         getMemberMsg(tmp).then((res) => {
           for (let x in res) {
             let da = "";
-            res[x].created_at = moment(res[x].created_at).format(
-              "YYYY/MM/DD HH:mm:ss"
-            );
+            res[x].created_at = moment
+              .utc(res[x].created_at)
+              .format("YYYY/MM/DD HH:mm:ss");
             let time = res[x].created_at.split(" ");
             if (time[0] != this.msgtime) {
               da = {
@@ -376,7 +405,7 @@ export default {
         if (res !== "error") {
           for (let x in res) {
             let lt = "";
-            if (res[x].lasttime != false) {
+            if (res[x].lasttime !== false && res[x].lasttime !== null) {
               lt = moment(res[x].lasttime).format("YYYY/MM/DD HH:mm:ss");
             }
             this.tableData.push({

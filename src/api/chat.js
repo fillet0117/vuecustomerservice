@@ -118,3 +118,27 @@ export function geturl() {
     method: "post",
   });
 }
+
+export function getmanager(data) {
+  return request({
+    url: "/getmanager",
+    method: "post",
+    data,
+  });
+}
+
+export function addmanager(data) {
+  return request({
+    url: "/addmanager",
+    method: "post",
+    data,
+  });
+}
+
+export function editmanager(data) {
+  return request({
+    url: "/editmanager",
+    method: "post",
+    data,
+  });
+}

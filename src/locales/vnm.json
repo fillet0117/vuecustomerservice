@@ -57,7 +57,8 @@
       "AccountOrNickname": "Biệt hiệu hoặc tài khoản",
       "Chat": "trò chuyện",
       "MemberChatRecord": "Hồ sơ thông tin thành viên",
-      "notSupportDoubleOpening": "Không hỗ trợ mở kép"
+      "notSupportDoubleOpening": "Không hỗ trợ mở kép",
+      "loginError": "Đăng nhập thất bại"
     }
   }
 }

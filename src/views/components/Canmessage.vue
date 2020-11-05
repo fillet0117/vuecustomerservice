@@ -13,7 +13,7 @@
       :before-close="handleClose"
       v-if="dialogVisible"
     >
-      <addcancategory @childByValue="childByValue" />
+      <addcanmessage @childByValue="childByValue" />
     </el-dialog>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column :label="$t('views.main.id')" width="180">
@@ -23,6 +23,12 @@
       </el-table-column>
 
       <el-table-column :label="$t('views.main.type')" width="180">
+        <template slot-scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.type }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column :label="$t('views.main.content')" width="180">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.content }}</span>
         </template>
@@ -56,19 +62,19 @@
       width="50%"
       :before-close="handleClose"
     >
-      <editcancategory :data="dialogdata" @childByValue="childByValue" />
+      <editcanmessage :data="dialogdata" @childByValue="childByValue" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getCanCategory, editCanCategory } from "../../api/chat";
-import addcancategory from "./cancategorycom/CanCategoryAdd";
-import editcancategory from "./cancategorycom/CanCategoryEdit";
+import { getCanMsg, getCanCategory, editCanMsg } from "../../api/chat";
+import addcanmessage from "./canmessagecom/CanMessageAdd";
+import editcanmessage from "./canmessagecom/CanMessageEdit";
 export default {
   components: {
-    addcancategory,
-    editcancategory,
+    addcanmessage,
+    editcanmessage,
   },
   data() {
     return {
@@ -76,10 +82,23 @@ export default {
       dialogVisible: false,
       dialogVisible2: false,
       dialogdata: "",
+      cancategory: [],
     };
   },
   mounted() {
-    this.handlegetcancategory();
+    getCanCategory({ status: "all" }).then((res) => {
+      if (res !== "error" && res.length !== 0) {
+        this.cancategory = [];
+        res.forEach((element) => {
+          let tmp = {
+            id: element.id,
+            type: element.content,
+          };
+          this.cancategory.push(tmp);
+        });
+      }
+    });
+    this.handlegetcanmsg();
   },
   methods: {
     handleEdit(index) {
@@ -89,12 +108,12 @@ export default {
     },
     handleClose(done) {
       done();
-      this.handlegetcancategory();
+      this.handlegetcanmsg();
       this.dialogVisible = false;
       this.dialogVisible2 = false;
     },
-    handlegetcancategory() {
-      getCanCategory({ status: "all" }).then((res) => {
+    handlegetcanmsg() {
+      getCanMsg({ status: "all" }).then((res) => {
         if (res !== "error" && res.length !== 0) {
           this.tableData = [];
           this.dialogdata = "";
@@ -103,11 +122,20 @@ export default {
             0: this.$t("views.main.deactivate"),
           };
           res.forEach((element) => {
+            let type = this.cancategory.find(
+              (ty) => ty.id === element.msg_categoryid
+            );
+            let typech = "";
+            if (type !== undefined) {
+              typech = type.type;
+            }
             let tmp = {
-              content: element.content,
               id: element.id,
+              content: element.content,
               status: st[element.status],
               st: element.status,
+              type: typech,
+              ty: element.msg_categoryid,
             };
             this.tableData.push(tmp);
           });
@@ -117,16 +145,17 @@ export default {
     childByValue: function () {
       this.dialogVisible = false;
       this.dialogVisible2 = false;
-      this.handlegetcancategory();
+      this.handlegetcanmsg();
     },
     handleDelete(index) {
       let data = this.tableData[index];
       let tmp = {
         id: data.id,
         content: data.content,
+        categoryid: data.ty,
         status: "2",
       };
-      editCanCategory(tmp).then((res) => {
+      editCanMsg(tmp).then((res) => {
         if (res === false) {
           this.$message({
             showClose: true,
@@ -141,7 +170,7 @@ export default {
             type: "success",
             duration: 3000,
           });
-          this.handlegetcancategory();
+          this.handlegetcanmsg();
         }
       });
     },

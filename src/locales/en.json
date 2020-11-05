@@ -57,7 +57,8 @@
       "AccountOrNickname": "Nickname or account",
       "Chat": "Chat",
       "MemberChatRecord": "Member message record",
-      "notSupportDoubleOpening": "Not support double opening"
+      "notSupportDoubleOpening": "Not support double opening",
+      "loginError": "Login Error"
     }
   }
 }

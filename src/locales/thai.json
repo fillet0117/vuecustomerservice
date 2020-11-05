@@ -57,7 +57,8 @@
       "AccountOrNickname": "ชื่อเล่นหรือบัญชี",
       "Chat": "แชท",
       "MemberChatRecord": "บันทึกข้อมูลสมาชิก",
-      "notSupportDoubleOpening": "ไม่รองรับการเปิดแบบคู่"
+      "notSupportDoubleOpening": "ไม่รองรับการเปิดแบบคู่",
+      "loginError": "เข้าสู่ระบบล้มเหลว"
     }
   }
 }

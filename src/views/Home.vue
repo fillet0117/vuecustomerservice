@@ -78,18 +78,28 @@ export default {
   methods: {
     submit() {
       login(this.ruleForm).then((res) => {
+        console.log(res);
         if (res !== "error") {
           let currentCookieSetting = {
             expires: 1,
           };
           Cookies.set("SameSite", "Strict");
-          Cookies.set("chattoken", res, currentCookieSetting);
+          Cookies.set("chattoken", res.jwt, currentCookieSetting);
+          Cookies.set("level", res.level)
           this.$router.push("/about");
+        } else {
+          this.$message({
+          message: this.$t("views.main.loginError"),
+            type: "error",
+            showClose: true,
+            duration: 3000,
+          });
         }
       });
     },
     handleEdit(lang) {
       this.$i18n.locale = lang;
+      Cookies.set("language", lang);
     },
   },
 };
