@@ -21,7 +21,7 @@
       </el-select>
     </el-form-item>
     <el-form-item :label="$t('views.main.content')" prop="content">
-      <el-input v-model="form.content" style="width: 450px"></el-input>
+      <el-input type="textarea" v-model="form.content"></el-input>
     </el-form-item>
     <el-form-item :label="$t('views.main.state')">
       <el-switch v-model="form.status"></el-switch>
@@ -50,7 +50,7 @@ export default {
         content: [
           {
             min: 1,
-            max: 1000000,
+            max: 100000,
             message: this.$t("views.main.typelength"),
             trigger: "blur",
           },
@@ -123,5 +123,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>

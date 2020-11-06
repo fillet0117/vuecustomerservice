@@ -21,7 +21,7 @@
       </el-select>
     </el-form-item>
     <el-form-item :label="$t('views.main.content')" prop="content">
-      <el-input v-model="form.content" style="width: 450px"></el-input>
+      <el-input type="textarea" v-model="form.content"></el-input>
     </el-form-item>
     <el-form-item :label="$t('views.main.state')">
       <el-switch v-model="form.status"></el-switch>
@@ -53,7 +53,7 @@ export default {
           },
           {
             min: 1,
-            max: 1000000,
+            max: 100000,
             message: this.$t("views.main.contentlength"),
             trigger: "blur",
           },
@@ -62,7 +62,7 @@ export default {
     };
   },
   mounted() {
-    getCanCategory({ status: "all" }).then((res) => {
+    getCanCategory({ status: "1" }).then((res) => {
       if (res !== "error" && res.length !== 0) {
         this.options = [];
         res.forEach((element) => {
@@ -119,5 +119,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>

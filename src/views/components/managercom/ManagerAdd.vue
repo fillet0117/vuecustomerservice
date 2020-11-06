@@ -110,7 +110,7 @@ export default {
           },
           {
             min: 2,
-            max: 20,
+            max: 40,
             message: this.$t("views.main.nicknamelength"),
             trigger: "blur",
           },
@@ -179,16 +179,16 @@ export default {
     },
     // 把圖轉乘base64
     getBase64(file) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         let reader = new FileReader();
         let imgResult = "";
         reader.readAsDataURL(file);
-        reader.onload = function () {
+        reader.onload = function() {
           imgResult = reader.result;
           let newImage = new Image();
           newImage.src = imgResult;
           let imgWidth, imgHeight;
-          newImage.onload = function () {
+          newImage.onload = function() {
             imgWidth = this.width;
             imgHeight = this.height;
             let myWidth = 300;
@@ -212,7 +212,7 @@ export default {
             resolve(imgResult);
           };
         };
-        reader.onerror = function (error) {
+        reader.onerror = function(error) {
           reject(error);
         };
       });
@@ -223,5 +223,4 @@ export default {
   },
 };
 </script>
-<style>
-</style>
+<style></style>
