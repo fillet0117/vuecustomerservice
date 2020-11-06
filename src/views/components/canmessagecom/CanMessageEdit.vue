@@ -8,7 +8,10 @@
     label-width="100px"
   >
     <el-form-item :label="$t('views.main.canmsgcategory')">
-      <el-select v-model="form.region" :placeholder="$t('views.main.selectcategory')">
+      <el-select
+        v-model="form.region"
+        :placeholder="$t('views.main.selectcategory')"
+      >
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -18,14 +21,16 @@
       </el-select>
     </el-form-item>
     <el-form-item :label="$t('views.main.content')" prop="content">
-      <el-input v-model="form.content" style="width:450px"></el-input>
+      <el-input v-model="form.content" style="width: 450px"></el-input>
     </el-form-item>
     <el-form-item :label="$t('views.main.state')">
       <el-switch v-model="form.status"></el-switch>
     </el-form-item>
     <br />
     <el-form-item>
-      <el-button type="primary" @click="onSubmit()">{{ $t('views.main.update') }}</el-button>
+      <el-button type="primary" @click="onSubmit()">{{
+        $t("views.main.update")
+      }}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -45,7 +50,7 @@ export default {
         content: [
           {
             min: 1,
-            max: 20,
+            max: 1000000,
             message: this.$t("views.main.typelength"),
             trigger: "blur",
           },

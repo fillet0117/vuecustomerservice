@@ -2,9 +2,7 @@
   <div>
     <notifications group="foo" position="top right" />
     <el-button size="mini" @click="dialogVisible = true">
-      {{
-      $t("views.main.add")
-      }}
+      {{ $t("views.main.add") }}
     </el-button>
     <el-dialog
       :title="$t('views.main.add') + $t('views.main.backendmanager')"
@@ -39,7 +37,7 @@
           <img
             v-if="scope.row.photo !== ''"
             :src="scope.row.photo"
-            style="width: 60px;height: 60px;"
+            style="width: 60px; height: 60px"
           />
         </template>
       </el-table-column>
@@ -62,12 +60,14 @@
             size="mini"
             @click="handleEdit(scope.$index)"
             type="primary"
-          >{{ $t("views.main.update") }}</el-button>
+            >{{ $t("views.main.update") }}</el-button
+          >
           <el-button
             type="danger"
             size="mini"
             @click="handleDelete(scope.$index)"
-          >{{ $t("views.main.delete") }}</el-button>
+            >{{ $t("views.main.delete") }}</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -127,7 +127,7 @@ export default {
           let le = {
             1: this.$t("views.main.backendmanager"),
             2: this.$t("views.main.customerservice"),
-            3: this.$t("view.main.admin")
+            3: this.$t("views.main.admin"),
           };
           res.forEach((element) => {
             let tmp = {

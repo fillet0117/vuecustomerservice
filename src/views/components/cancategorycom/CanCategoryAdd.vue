@@ -8,14 +8,16 @@
     label-width="80px"
   >
     <el-form-item :label="$t('views.main.type')" prop="content">
-      <el-input v-model="form.content" style="width:350px"></el-input>
+      <el-input v-model="form.content" style="width: 350px"></el-input>
     </el-form-item>
     <el-form-item :label="$t('views.main.state')">
       <el-switch v-model="form.status"></el-switch>
     </el-form-item>
     <br />
     <el-form-item>
-      <el-button type="primary" @click="onSubmit()">{{ $t('views.main.add') }}</el-button>
+      <el-button type="primary" @click="onSubmit()">{{
+        $t("views.main.add")
+      }}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -37,7 +39,7 @@ export default {
           },
           {
             min: 1,
-            max: 20,
+            max: 1000000,
             message: this.$t("views.main.typelength"),
             trigger: "blur",
           },

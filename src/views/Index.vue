@@ -1,6 +1,8 @@
 <template>
   <div class="content-bg">
-    <el-button size="mini" @click="submit" type="primary" plain>{{ $t("views.main.logout") }}</el-button>
+    <el-button size="mini" @click="submit" type="primary" plain>{{
+      $t("views.main.logout")
+    }}</el-button>
     <el-tabs class="tabs-chat" type="border-card" v-model="activeName">
       <el-tab-pane :label="$t('views.main.Chat')" :disabled="dis" name="first">
         <cschat @checkcount="checkcount" />
@@ -15,7 +17,7 @@
         <canmsg />
       </el-tab-pane>
       <el-tab-pane
-        v-if="level === '1'"
+        v-if="level === '3'"
         :label="$t('views.main.customerservicemanagement')"
         name="sixth"
       >
@@ -63,7 +65,7 @@ export default {
         });
       }
     },
-    checkcount: function (status) {
+    checkcount: function(status) {
       if (status == "limit") {
         this.$message({
           message: this.$t("views.main.limit"),
@@ -82,6 +84,13 @@ export default {
         this.$message({
           showClose: true,
           message: this.$t(`views.main.notSupportDoubleOpening`),
+          type: "warning",
+          duration: 3000,
+        });
+      } else if (status == "noLogin") {
+        this.$message({
+          showClose: true,
+          message: this.$t(`views.main.notLoggedIn`),
           type: "warning",
           duration: 3000,
         });

@@ -9,26 +9,44 @@
               <el-form size="mini" :inline="true" @submit.native.prevent>
                 <el-form-item :label="$t(`views.main.state`)">
                   <el-radio-group v-model="busyornot" @change="statuschange">
-                    <el-radio label="auto">{{ $t("views.main.wiringAutomatic") }}</el-radio>
-                    <el-radio label="manu">{{ $t("views.main.wiringManual ") }}</el-radio>
-                    <el-radio label="disc">{{ $t("views.main.Offlinde") }}</el-radio>
+                    <el-radio label="auto">{{
+                      $t("views.main.wiringAutomatic")
+                    }}</el-radio>
+                    <el-radio label="manu">{{
+                      $t("views.main.wiringManual ")
+                    }}</el-radio>
+                    <el-radio label="disc">{{
+                      $t("views.main.Offlinde")
+                    }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-form>
             </el-col>
             <el-col :span="3">
-              <h3
-                style="color: #606266;font-size: 13px; margin-top: 6px;"
-              >{{ $t("views.main.csOnlineNumber") }} : {{ online }}</h3>
+              <h3 style="color: #606266; font-size: 13px; margin-top: 6px">
+                {{ $t("views.main.csOnlineNumber") }} : {{ online }}
+              </h3>
             </el-col>
             <el-col :span="5">
-              <h3
-                style="color: #606266;font-size: 13px; margin-top: 6px;"
-              >{{ $t("views.main.memberOnline") }} : {{ useronline }}</h3>
+              <h3 style="color: #606266; font-size: 13px; margin-top: 6px">
+                {{ $t("views.main.memberOnline") }} : {{ useronline }}
+              </h3>
             </el-col>
-            <el-col :span="7">
-              <audio controls="controls" hidden src="../../assets/ring.mp3" ref="audio"></audio>
-              <!-- <audio controls="controls" hidden src="./aud" ref="audio"></audio> -->
+            <el-col :span="4">
+              <audio
+                controls="controls"
+                hidden
+                src="../../assets/ring.mp3"
+                ref="audio"
+              ></audio>
+            </el-col>
+            <el-col :span="3">
+              <audio
+                controls="controls"
+                hidden
+                src="../../assets/ring2.mp3"
+                ref="ring"
+              ></audio>
             </el-col>
           </el-row>
           <el-row :gutter="10">
@@ -40,11 +58,15 @@
                       ref="singleTable"
                       :data="newtableData"
                       height="700"
-                      style="width: 100%;"
+                      style="width: 100%"
                       :row-class-name="tableNotice"
                       :row-style="{ height: '10px' }"
                     >
-                      <el-table-column property="name" :label="$t('views.main.name')" width="180"></el-table-column>
+                      <el-table-column
+                        property="name"
+                        :label="$t('views.main.name')"
+                        width="180"
+                      ></el-table-column>
                       <el-table-column
                         property="waittime"
                         :label="$t('views.main.waitingTime')"
@@ -60,29 +82,39 @@
                         :label="$t('views.main.state')"
                         width="70"
                       ></el-table-column>
-                      <el-table-column :label="$t('views.main.incoming')" width="70">
+                      <el-table-column
+                        :label="$t('views.main.incoming')"
+                        width="70"
+                      >
                         <template slot-scope="scope">
                           <el-button
                             size="mini"
                             :disabled="scope.row.inroom"
                             @click="getinroom(scope.row, scope.$index)"
-                          >{{ $t("views.main.incoming") }}</el-button>
+                            >{{ $t("views.main.incoming") }}</el-button
+                          >
                         </template>
                       </el-table-column>
                     </el-table>
                   </el-row>
                 </el-tab-pane>
-                <el-tab-pane :label="$t('views.main.myOnlineCustomer')" name="second">
+                <el-tab-pane
+                  :label="$t('views.main.myOnlineCustomer')"
+                  name="second"
+                >
                   <el-table
                     ref="singleTable"
                     :data="mytableData"
                     height="700"
-                    style="width: 100%;"
+                    style="width: 100%"
                     @current-change="handleCurrentChange"
                     highlight-current-row
                     :row-style="{ height: '10px' }"
                   >
-                    <el-table-column property="name" :label="$t('views.main.name')"></el-table-column>
+                    <el-table-column
+                      property="name"
+                      :label="$t('views.main.name')"
+                    ></el-table-column>
                     <el-table-column
                       property="waittime"
                       :label="$t('views.main.waitingTime')"
@@ -93,24 +125,40 @@
                       :label="$t('views.main.connectionTime')"
                       width="60"
                     ></el-table-column>
-                    <el-table-column property="no" :label="$t('views.main.inform')" width="70">
+                    <el-table-column
+                      property="no"
+                      :label="$t('views.main.inform')"
+                      width="70"
+                    >
                       <template slot-scope="scope">
-                        <el-badge v-if="scope.row.no != 0" :value="scope.row.no"></el-badge>
+                        <el-badge
+                          v-if="scope.row.no != 0"
+                          :value="scope.row.no"
+                        ></el-badge>
                       </template>
                     </el-table-column>
                   </el-table>
                 </el-tab-pane>
-                <el-tab-pane :label="$t('views.main.todayCustomerRecord')" name="third">
+                <el-tab-pane
+                  :label="$t('views.main.todayCustomerRecord')"
+                  name="third"
+                >
                   <el-table
                     ref="singleTable"
                     :data="tableData"
                     height="700"
-                    style="width: 100%;"
+                    style="width: 100%"
                     @current-change="handleRecord"
                     :row-style="{ height: '10px' }"
                   >
-                    <el-table-column property="name" :label="$t('views.main.name')"></el-table-column>
-                    <el-table-column property="linktime" :label="$t('views.main.lastEntry')"></el-table-column>
+                    <el-table-column
+                      property="name"
+                      :label="$t('views.main.name')"
+                    ></el-table-column>
+                    <el-table-column
+                      property="linktime"
+                      :label="$t('views.main.lastEntry')"
+                    ></el-table-column>
                   </el-table>
                 </el-tab-pane>
               </el-tabs>
@@ -124,7 +172,8 @@
                     @click="kicked()"
                     round
                     :disabled="activeName == 'third'"
-                  >{{ $t("views.main.kickMemberOut") }}</el-button>
+                    >{{ $t("views.main.kickMemberOut") }}</el-button
+                  >
                 </el-col>
               </el-row>
               <el-row>
@@ -166,20 +215,24 @@
                     <li
                       v-if="
                         item.style != 'center' &&
-                        item.style != 'divider' &&
-                        item.image
+                          item.style != 'divider' &&
+                          item.image
                       "
                       :class="item.style"
                     >
                       <div v-if="item.fontstyle == 'fontright'">
-                        <el-image v-if="item.image" :src="item.msg" :preview-src-list="srcList"></el-image>
+                        <el-image
+                          v-if="item.image"
+                          :src="item.msg"
+                          :preview-src-list="srcList"
+                        ></el-image>
                         <b>{{ item.name }}</b>
                         <img
                           v-if="
                             photo != '' &&
-                            item.style == 'right' &&
-                            activeName != 'third' &&
-                            item.name == nickname
+                              item.style == 'right' &&
+                              activeName != 'third' &&
+                              item.name == nickname
                           "
                           :src="photo"
                           class="img_bor"
@@ -187,8 +240,12 @@
                         <br />
                       </div>
                       <div v-if="item.fontstyle == 'fontleft'">
-                        <b style="margin-right: 5px;">{{ item.name }}</b>
-                        <el-image v-if="item.image" :src="item.msg" :preview-src-list="srcList"></el-image>
+                        <b style="margin-right: 5px">{{ item.name }}</b>
+                        <el-image
+                          v-if="item.image"
+                          :src="item.msg"
+                          :preview-src-list="srcList"
+                        ></el-image>
                         <br />
                       </div>
                       <i class="time">{{ item.curtime }}</i>
@@ -209,25 +266,33 @@
                     @keyup.ctrl.enter="lineFeed()"
                     @keyup.enter.exact="publish($event)"
                     :disabled="activeName == 'third'"
-                    style="margin-left:10px;resize:none;"
+                    style="margin-left: 10px; resize: none"
                   ></textarea>
                 </el-col>
                 <el-col :span="2">
-                  <el-popover placement="top" width="400" height="400" trigger="click">
+                  <el-popover
+                    placement="top"
+                    width="400"
+                    height="400"
+                    trigger="click"
+                  >
                     <ul class="emoji-container">
                       <li
                         @click="emojiclick(item)"
                         v-for="(item, index) in emojis"
                         :key="index"
-                      >{{ item }}</li>
+                      >
+                        {{ item }}
+                      </li>
                     </ul>
                     <el-button
                       slot="reference"
                       circle
                       :disabled="activeName == 'third'"
                       type="text"
-                      style="font-size:20px"
-                    >&#x1F601;</el-button>
+                      style="font-size: 20px"
+                      >&#x1F601;</el-button
+                    >
                   </el-popover>
                 </el-col>
                 <el-col :span="2">
@@ -245,8 +310,15 @@
                     <i class="el-icon-picture-outline uploader-icon"></i>
                   </el-upload>
                   <el-popover v-if="upfile != ''">
-                    <img :src="upfile" style="max-width: 1300px; max-height: 900px" />
-                    <img slot="reference" :src="upfile" style="width: 100px; height: 100px" />
+                    <img
+                      :src="upfile"
+                      style="max-width: 1300px; max-height: 900px"
+                    />
+                    <img
+                      slot="reference"
+                      :src="upfile"
+                      style="width: 100px; height: 100px"
+                    />
                   </el-popover>
                   <br />
                 </el-col>
@@ -256,15 +328,17 @@
                     @click="publish"
                     :disabled="activeName == 'third'"
                     style="margin-top: 8px"
-                  >{{ $t("views.main.send") }}</el-button>
+                    >{{ $t("views.main.send") }}</el-button
+                  >
                 </el-col>
               </el-row>
             </el-col>
             <el-col :span="6">
               <el-row style="margin-top: 10px">
                 <i
-                  style="color: #606266;font-size: 13px; margin-bottom: 5px;"
-                >{{ $t("views.main.cannedmessage") }}</i>
+                  style="color: #606266; font-size: 13px; margin-bottom: 5px"
+                  >{{ $t("views.main.cannedmessage") }}</i
+                >
                 <br />
                 <el-cascader
                   :props="{ multiple: false }"
@@ -278,8 +352,9 @@
               </el-row>
               <el-row style="margin-top: 20px">
                 <i
-                  style="color: #606266;font-size: 13px; margin-bottom: 5px;"
-                >{{ $t("views.main.csOnline") }}</i>
+                  style="color: #606266; font-size: 13px; margin-bottom: 5px"
+                  >{{ $t("views.main.csOnline") }}</i
+                >
                 <br />
                 <el-select
                   v-model="csvalue"
@@ -300,7 +375,9 @@
                     <span>{{ $t("views.main.member_information") }}</span>
                   </div>
                   <div>
-                    <i class="el-icon-location-outline">{{ detiallist.place }}</i>
+                    <i class="el-icon-location-outline">{{
+                      detiallist.place
+                    }}</i>
                   </div>
                   <div>
                     <i>{{ $t("views.main.nickname") }} :</i>
@@ -324,9 +401,9 @@
                   </div>
                   <div v-if="activeName != 'third'">
                     <i>{{ $t("views.main.question") }} :</i>
-                    <i
-                      v-if="typeof detiallist.qa != 'undefined'"
-                    >{{ $t(`views.main.${detiallist.qa}`) }}</i>
+                    <i v-if="typeof detiallist.qa != 'undefined'">{{
+                      $t(`views.main.${detiallist.qa}`)
+                    }}</i>
                   </div>
                   <div>
                     <i>{{ $t("views.main.viewport") }} :</i>
@@ -461,17 +538,7 @@ export default {
     // 沒有登入
     // if (cookie == false) {
     if (!("chattoken" in cookie)) {
-      _this.$message({
-        showClose: true,
-        message: _this.$t(`views.main.notLoggedIn`),
-        type: "warning",
-        duration: 3000,
-      });
-      if (_this.$route.path !== "/") {
-        _this.$router.push("/").catch((err) => {
-          console.log(err);
-        });
-      }
+      _this.$emit("checkcount", "noLogin");
       return;
     }
     // socket連線
@@ -480,62 +547,39 @@ export default {
     this.socket = io.connect(this.url);
     // 斷線
     this.socket.on("disconnect", () => {
-      _this.$message({
-        showClose: true,
-        message: _this.$t("views.main.alreadydisconnect"),
-        type: "warning",
-        duration: 3000,
-      });
       Cookies.remove("chattoken");
-      // _this.$router.push("/");
-      if (_this.$route.path !== "/") {
-        _this.$router.push("/").catch((err) => {
-          console.log(err);
-        });
-      }
+      _this.$emit("checkcount", "disconnect");
       _this.socket.disconnect();
     });
     // 判斷雙開
-    this.socket.on("double", function (data) {
+    this.socket.on("double", function(data) {
       double = data;
       if (data == "yes") {
-        _this.$message({
-          showClose: true,
-          message: _this.$t(`views.main.notSupportDoubleOpening`),
-          type: "warning",
-          duration: 3000,
-        });
         Cookies.remove("chattoken");
         _this.socket.disconnect();
-        // if (_this.$router.path !== "/") {
-        //   _this.$router.push("/");
-        // }
-        if (_this.$route.path !== "/") {
-          _this.$router.push("/").catch((err) => {
-            console.log(err);
-          });
-        }
+        _this.$emit("checkcount", "double");
         return;
       }
     });
     // 拿取頭貼
-    this.socket.on("getpic", function (pic) {
+    this.socket.on("getpic", function(pic) {
       _this.photo = pic;
     });
     // 線上會員數量
-    this.socket.on("user_online", function (amount) {
+    this.socket.on("user_online", function(amount) {
       _this.useronline = amount;
     });
     // 將會員顯示在表格內
-    this.socket.on("getRoom", function (
+    this.socket.on("getRoom", function(
       roomid,
       name,
       detial,
       linktime,
       service
     ) {
+      _this.play2();
       var accode = name.split("("); // 分割名字 ex: 帳號(信用卡綁定名稱)
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         let str = service != false ? _this.$t("views.main.inService") : "";
         if (index == -1) {
           _this.newtableData.unshift({
@@ -564,9 +608,16 @@ export default {
       }
       // tab跳轉,有人進線就跳到接線大廳
       _this.activeName = "first";
+      _this.$notify({
+        group: "foo",
+        title: _this.$t("views.main.onlineNotify"),
+        text: name + " " + _this.$t("views.main.online"),
+        duration: 3000,
+        speed: 100,
+      });
     });
     // 取的所有的客服
-    this.socket.on("getallcs", function (socketId, name, bu) {
+    this.socket.on("getallcs", function(socketId, name, bu) {
       if (socketId != _this.socket.id && bu != 2) {
         // 不是本客服且客服不為離線
         _this.CsTable.unshift({
@@ -576,19 +627,30 @@ export default {
       }
     });
     // 設定mid
-    this.socket.on("getMid", function (managerid) {
+    this.socket.on("getMid", function(managerid) {
       _this.accountid = managerid;
     });
     // user離開,刪除table的值
-    this.socket.on("userleave", function (roomid) {
+    this.socket.on("userleave", function(roomid) {
       // 從接線大廳刪除
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
+          _this.$notify({
+            group: "foo",
+            title: _this.$t("views.main.OfflineNotify"),
+            text:
+              _this.newtableData[index].name +
+              " " +
+              _this.$t("views.main.offline"),
+            type: "warn",
+            duration: 3000,
+            speed: 100,
+          });
           _this.newtableData.splice(index, 1);
         }
       });
       // 從我的線上客戶刪除
-      _this.getindex(_this.mytableData, roomid).then(function (index) {
+      _this.getindex(_this.mytableData, roomid).then(function(index) {
         if (index != -1) {
           _this.mytableData.splice(index, 1);
         }
@@ -608,15 +670,15 @@ export default {
       }
     });
     // cs離開,刪除table的值
-    this.socket.on("csleave", function (socketid) {
-      _this.getindexforcstable(socketid).then(function (index) {
+    this.socket.on("csleave", function(socketid) {
+      _this.getindexforcstable(socketid).then(function(index) {
         if (index != -1) {
           _this.CsTable.splice(index, 1);
         }
       });
     });
     // 接收訊息
-    this.socket.on("msgReceived", function (name, data, roomid, pic, time) {
+    this.socket.on("msgReceived", function(name, data, roomid, pic, time) {
       if (data.msg.indexOf(_this.nickname) != -1) {
         return;
       }
@@ -662,7 +724,7 @@ export default {
         _this.msglist.push(da);
       } else {
         // 不在現在服務的room中
-        _this.getindex(_this.mytableData, roomid).then(function (index) {
+        _this.getindex(_this.mytableData, roomid).then(function(index) {
           // 有傳訊息的放到第一個
           if (index !== -1 && name !== "System") {
             // 有在myroom中且不是系統訊息
@@ -694,7 +756,7 @@ export default {
       _this.activeName = "second";
     });
     // 通知cs已進入room
-    this.socket.on("notic_getinroom", function (roomid) {
+    this.socket.on("notic_getinroom", function(roomid) {
       if (_this.myroom.indexOf(roomid) == -1) {
         // 放到myroom中
         _this.myroom.push(roomid);
@@ -703,13 +765,13 @@ export default {
         // 如果myroom中只有一個room,設定現在的room為roomid
         _this.currentroom = roomid;
       }
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           // 在接線大廳中
           var data = _this.newtableData[index];
           data.no = 0;
           data.inroom = true;
-          _this.getindex(_this.mytableData, roomid).then(function (index) {
+          _this.getindex(_this.mytableData, roomid).then(function(index) {
             if (index == -1) {
               _this.mytableData.unshift(data);
               if (_this.mytableData.length == 1 && _this.roommsg.has(roomid)) {
@@ -739,8 +801,8 @@ export default {
       });
     });
     // 若會員有已接線的cs，設定有服務中
-    this.socket.on("getuserservice", function (roomid, color) {
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("getuserservice", function(roomid, color) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           if (color == true) {
             _this.newtableData[index].servicestatus = _this.$t(
@@ -753,13 +815,13 @@ export default {
       });
     });
     // 設定暱稱跟帳號
-    this.socket.on("getNickname", function (nickname, accountcode) {
+    this.socket.on("getNickname", function(nickname, accountcode) {
       _this.nickname = nickname;
       _this.accountcode = accountcode;
     });
     // room中的客服(現在沒有用)
-    this.socket.on("whichcsinroom", function (csname, roomid) {
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("whichcsinroom", function(csname, roomid) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData[index].csinroom.push(csname);
           _this.newtableData[index].servicestatus = _this.$t(
@@ -769,9 +831,9 @@ export default {
       });
     });
     // 通知某個cs離開room(現在沒用了)
-    this.socket.on("delcsinroom", function (csname, roomid, socketid) {
+    this.socket.on("delcsinroom", function(csname, roomid, socketid) {
       if (socketid != _this.socket.id) {
-        _this.getindex(_this.newtableData, roomid).then(function (index) {
+        _this.getindex(_this.newtableData, roomid).then(function(index) {
           if (index != -1) {
             // 把csinroom的cs拿掉
             let indexcs = _this.newtableData[index].csinroom.indexOf(csname);
@@ -786,7 +848,7 @@ export default {
     // 對應的chat_socket
     // this.socket.emit("correspond", chat_socket);
     // 斷線設置
-    this.socket.on("disconnect", function () {
+    this.socket.on("disconnect", function() {
       if (double == "yes") {
         _this.tableData = [];
         _this.CsTable = [];
@@ -796,17 +858,17 @@ export default {
       _this.busyornot = "disc";
     });
     // 進入socket設置的房間
-    this.socket.on("join", function (roomid) {
+    this.socket.on("join", function(roomid) {
       _this.socket.emit("joinRoom", roomid);
     });
     // cs在線人數
-    this.socket.on("csonline", function (amount) {
+    this.socket.on("csonline", function(amount) {
       _this.online = amount;
     });
     // 設定cs狀態
     this.socket.emit("getbusy", _this.busyornot, cookie);
     // 取得聊天紀錄
-    this.socket.on("getRecord", function (record, roomid) {
+    this.socket.on("getRecord", function(record, roomid) {
       if (record) {
         if (_this.currentroom == roomid) {
           _this.msglist = [];
@@ -831,9 +893,9 @@ export default {
       }
     });
     // cstable的狀態改變
-    this.socket.on("cschangestatus", function (socketid, bu, name) {
+    this.socket.on("cschangestatus", function(socketid, bu, name) {
       if (socketid != _this.socket.id) {
-        _this.getindexforcstable(socketid).then(function (index) {
+        _this.getindexforcstable(socketid).then(function(index) {
           if (index != -1 && bu == 2) {
             // 客服離線，刪除在在線客服中的客服
             _this.CsTable.splice(index, 1);
@@ -848,15 +910,15 @@ export default {
       }
     });
     // 設定等待時間 (客服有回應客戶，就會設置waittime為00:00)
-    this.socket.on("setwaittime", function (roomid) {
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("setwaittime", function(roomid) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (index != -1) {
           _this.newtableData[index].status = 1;
           _this.newtableData[index].waittime = "00:00";
           _this.newtableData[index].reloadtime = 0;
         }
       });
-      _this.getindex(_this.mytableData, roomid).then(function (index) {
+      _this.getindex(_this.mytableData, roomid).then(function(index) {
         if (index != -1) {
           _this.mytableData[index].status = 1;
           _this.mytableData[index].waittime = "00:00";
@@ -865,8 +927,8 @@ export default {
       });
     });
     // 用戶有傳訊息, 重新計算waittime
-    this.socket.on("reloadtime", function (roomid) {
-      _this.getindex(_this.newtableData, roomid).then(function (index) {
+    this.socket.on("reloadtime", function(roomid) {
+      _this.getindex(_this.newtableData, roomid).then(function(index) {
         if (
           index != -1 &&
           _this.newtableData[index].status == 1 &&
@@ -875,7 +937,7 @@ export default {
           _this.newtableData[index].reloadtime = Date.parse(new Date());
         }
       });
-      _this.getindex(_this.mytableData, roomid).then(function (index) {
+      _this.getindex(_this.mytableData, roomid).then(function(index) {
         if (
           index != -1 &&
           _this.mytableData[index].status == 1 &&
@@ -887,15 +949,10 @@ export default {
     });
     // 計算等待跟連線時間用
     setInterval(this.getallsubtime(), 1000);
-    var siv = setInterval(function () {
+    var siv = setInterval(function() {
       if (_this.socket !== undefined && _this.socket.connected === false) {
         Cookies.remove("chattoken");
-        // _this.$router.push("/");
-        if (_this.$route.path !== "/") {
-          _this.$router.push("/").catch((err) => {
-            console.log(err);
-          });
-        }
+        _this.$emit("checkcount", "disconnect");
         clearInterval(siv);
       }
     }, 600000);
@@ -1001,7 +1058,7 @@ export default {
         if (this.myroom.indexOf(data.room) == -1) {
           this.myroom.push(data.room);
         }
-        this.getindex(this.newtableData, data.room).then(function (index) {
+        this.getindex(this.newtableData, data.room).then(function(index) {
           if (index != -1) {
             _this.newtableData[index].inroom = true;
             _this.newtableData[index].servicestatus = _this.$t(
@@ -1026,7 +1083,7 @@ export default {
             this.scrollToBottom();
           });
         }
-        this.getindex(this.mytableData, data.room).then(function (index) {
+        this.getindex(this.mytableData, data.room).then(function(index) {
           if (index == -1) {
             _this.mytableData.unshift(data);
           }
@@ -1085,9 +1142,7 @@ export default {
         );
       }
       if (this.form.msg != "" && this.upfile != "") {
-        this.getindex(this.mytableData, this.currentroom).then(function (
-          index
-        ) {
+        this.getindex(this.mytableData, this.currentroom).then(function(index) {
           if (index != -1) {
             _this.mytableData[index].status = 1;
             _this.mytableData[index].waittime = "00:00";
@@ -1095,7 +1150,10 @@ export default {
         });
       }
       if (this.noread.has(this.currentroom)) {
-        let cnt = this.noread.get(this.currentroom).values().next().value;
+        let cnt = this.noread
+          .get(this.currentroom)
+          .values()
+          .next().value;
         let nodata = this.msglist[cnt];
         this.msglist.splice(cnt, 1);
         this.roommsg.get(this.currentroom).delete(nodata);
@@ -1126,16 +1184,16 @@ export default {
     },
     // 把圖轉乘base64
     getBase64(file) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         let reader = new FileReader();
         let imgResult = "";
         reader.readAsDataURL(file);
-        reader.onload = function () {
+        reader.onload = function() {
           imgResult = reader.result;
           let newImage = new Image();
           newImage.src = imgResult;
           let imgWidth, imgHeight;
-          newImage.onload = function () {
+          newImage.onload = function() {
             imgWidth = this.width;
             imgHeight = this.height;
             let myWidth = 500;
@@ -1160,7 +1218,7 @@ export default {
             resolve(imgResult);
           };
         };
-        reader.onerror = function (error) {
+        reader.onerror = function(error) {
           reject(error);
         };
         // reader.onloadend = function () {
@@ -1405,6 +1463,18 @@ export default {
       this.$refs.audio.pause();
       this.$refs.audio.get = 0;
     },
+    play2() {
+      this.$refs.ring.currentTime = 0; //从头开始播放提示音
+      this.$refs.ring.play(); //播放
+      setTimeout(() => {
+        this.stop2();
+      }, 1000);
+    },
+    // 關閉提示音
+    stop2() {
+      this.$refs.ring.pause();
+      this.$refs.ring.get = 0;
+    },
     // 拿取今天有紀錄的所有roomid
     handleClick() {
       let _this = this;
@@ -1421,10 +1491,10 @@ export default {
         getroom(tmp).then((res) => {
           if (res !== "error" && res !== "") {
             res.forEach((x) => {
-              this.getindex(this.tableData, x.room).then(function (index) {
+              this.getindex(this.tableData, x.room).then(function(index) {
                 _this
                   .getindex(_this.newtableData, x.room)
-                  .then(function (index2) {
+                  .then(function(index2) {
                     let truetime = 0;
                     if (index2 != -1) {
                       truetime = 1;
@@ -1695,7 +1765,10 @@ export default {
         this.noread.has(this.currentroom) &&
         this.activeName != "third"
       ) {
-        let cnt = this.noread.get(this.currentroom).values().next().value;
+        let cnt = this.noread
+          .get(this.currentroom)
+          .values()
+          .next().value;
         let nodata = this.msglist[cnt];
         this.msglist.splice(cnt, 1);
         this.roommsg.get(this.currentroom).delete(nodata);

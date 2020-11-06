@@ -17,9 +17,18 @@
       <el-input v-model="form.nickname"></el-input>
     </el-form-item>
     <el-form-item :label="$t('views.main.level')">
-      <el-select v-model="form.level" :placeholder="$t('views.main.selectlevel')">
-        <el-option :label="$t('views.main.backendmanager')" value="1"></el-option>
-        <el-option :label="$t('views.main.customerservice')" value="2"></el-option>
+      <el-select
+        v-model="form.level"
+        :placeholder="$t('views.main.selectlevel')"
+      >
+        <el-option
+          :label="$t('views.main.backendmanager')"
+          value="1"
+        ></el-option>
+        <el-option
+          :label="$t('views.main.customerservice')"
+          value="2"
+        ></el-option>
       </el-select>
     </el-form-item>
     <el-form-item :label="$t('views.main.state')">
@@ -39,12 +48,18 @@
         <i class="el-icon-picture-outline uploader-icon"></i>
       </el-upload>
       <el-popover v-if="upfile != ''">
-        <img slot="reference" :src="upfile" style="width: 100px; height: 100px" />
+        <img
+          slot="reference"
+          :src="upfile"
+          style="width: 100px; height: 100px"
+        />
       </el-popover>
     </el-form-item>
     <br />
     <el-form-item>
-      <el-button type="primary" @click="onSubmit()">{{ $t('views.main.add') }}</el-button>
+      <el-button type="primary" @click="onSubmit()">{{
+        $t("views.main.add")
+      }}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -69,7 +84,7 @@ export default {
           },
           {
             min: 3,
-            max: 20,
+            max: 40,
             message: this.$t("views.main.namelength"),
             trigger: "blur",
           },
@@ -95,7 +110,7 @@ export default {
           },
           {
             min: 2,
-            max: 10,
+            max: 20,
             message: this.$t("views.main.nicknamelength"),
             trigger: "blur",
           },
